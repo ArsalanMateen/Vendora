@@ -6,6 +6,8 @@ import cors from "cors";
 import helmet from "helmet";
 
 // Routes
+import userRoutes from "./routes/user.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use(helmet());
 app.use(cors());
 
 // Mount API routes
+app.use("/", userRoutes);
+app.use("/", authRoutes);
 
 // Catch unauthorized errors
 app.use((err, req, res, next) => {
