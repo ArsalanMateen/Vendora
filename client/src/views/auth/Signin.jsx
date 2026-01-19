@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { signin } from "../../api/api-auth";
-
+import Icon from "../../components/Icon";
 import AuthLayout from "./AuthLayout";
 import styles from "./Auth.module.css";
 
@@ -13,6 +13,7 @@ export default function Signin() {
 
   const [values, setValues] = useState({ email: "", password: "", error: "" });
   const [pending, setPending] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (name) => (event) =>
     setValues((previous) => ({
@@ -21,13 +22,9 @@ export default function Signin() {
       error: "",
     }));
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const performSignIn = async (email, password) => {
     setPending(true);
-    const data = await signin({
-      email: values.email,
-      password: values.password,
-    });
+    const data = await signin({ email, password });
     setPending(false);
     if (data?.token && data?.user) {
       auth.authenticate(data, () => {
@@ -39,11 +36,23 @@ export default function Signin() {
           },
         );
       });
-    } else
+    } else {
       setValues((previous) => ({
         ...previous,
         error: data?.error || "We couldn’t sign you in. Please try again.",
       }));
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await performSignIn(values.email, values.password);
+  };
+
+  const handleDemoSignIn = async (email) => {
+    const password = "VendoraDemo@2026";
+    setValues({ email, password, error: "" });
+    await performSignIn(email, password);
   };
 
   return (
@@ -76,21 +85,58 @@ export default function Signin() {
           <label htmlFor="signin-password" className={styles.label}>
             Password
           </label>
-
-          <input
-            id="signin-password"
-            type="password"
-            autoComplete="current-password"
-            value={values.password}
-            onChange={handleChange("password")}
-            required
-            className={styles.input}
-          />
+          <div className={styles.passwordField}>
+            <input
+              id="signin-password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              value={values.password}
+              onChange={handleChange("password")}
+              required
+              className={styles.input}
+              placeholder="Enter your password"
+            />
+            <button
+              type="button"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword((value) => !value)}
+            >
+              <Icon name={showPassword ? "eyeOff" : "eye"} size={18} />
+            </button>
+          </div>
         </div>
         <button type="submit" className={styles.btnSubmit} disabled={pending}>
           {pending ? "Signing you in…" : "Sign in"}
         </button>
       </form>
+      <div className={styles.divider} role="separator" aria-label="or">
+        <span className={styles.dividerText}>or</span>
+      </div>
+      <p className={styles.demoText}>
+        Sign in as{" "}
+        <button
+          type="button"
+          className={styles.demoButton}
+          disabled={pending}
+          onClick={() => handleDemoSignIn("nathan.michel@users.vendora.test")}
+          aria-label="Sign in as Nathan Michel"
+          title="Nathan Michel: nathan.michel@users.vendora.test"
+        >
+          Nathan Michel
+        </button>{" "}
+        or{" "}
+        <button
+          type="button"
+          className={styles.demoButton}
+          disabled={pending}
+          onClick={() => handleDemoSignIn("julia.pereira@users.vendora.test")}
+          aria-label="Sign in as Julia Pereira"
+          title="Julia Pereira: julia.pereira@users.vendora.test"
+        >
+          Julia Pereira
+        </button>
+      </p>
       <p className={styles.switchText}>
         New around here?{" "}
         <Link to="/signup" className={styles.switchLink}>
