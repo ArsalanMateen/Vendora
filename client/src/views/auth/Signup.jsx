@@ -10,7 +10,7 @@ export default function Signup() {
     name: "",
     email: "",
     password: "",
-
+    seller: false,
     error: "",
     success: false,
   });
@@ -26,8 +26,8 @@ export default function Signup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setPending(true);
-    const { name, email, password } = values;
-    const data = await create({ name, email, password });
+    const { name, email, password, seller } = values;
+    const data = await create({ name, email, password, seller });
     setPending(false);
     if (data?.error || !data)
       setValues((previous) => ({
@@ -116,7 +116,23 @@ export default function Signup() {
               className={styles.input}
             />
           </div>
-
+          <label className={styles.sellerOption}>
+            <input
+              type="checkbox"
+              checked={values.seller}
+              onChange={(event) =>
+                setValues((previous) => ({
+                  ...previous,
+                  seller: event.target.checked,
+                }))
+              }
+            />
+            <span>
+              I’d like to sell on Vendora
+              <small>Get access to your own seller studio.</small>
+            </span>
+            <Icon name="shop" size={19} />
+          </label>
           <button type="submit" className={styles.btnSubmit} disabled={pending}>
             {pending ? "Creating your account…" : "Create account"}
           </button>
