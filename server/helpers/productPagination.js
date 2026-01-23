@@ -31,6 +31,8 @@ export function productQuery(params = {}, shop) {
       $regex: search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
       $options: "i",
     };
+  const category = text("category");
+  if (category && category !== "All") filter.category = category;
   return {
     filter,
     pageFilter: filter,
