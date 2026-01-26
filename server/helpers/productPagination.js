@@ -33,6 +33,10 @@ export function productQuery(params = {}, shop) {
     };
   const category = text("category");
   if (category && category !== "All") filter.category = category;
+  const stock = text("stockOnly") || text("stock");
+  if (stock && !["true", "false"].includes(stock))
+    throw new Error("Invalid stockOnly");
+  if (stock === "true") filter.quantity = { $gt: 0 };
   return {
     filter,
     pageFilter: filter,
