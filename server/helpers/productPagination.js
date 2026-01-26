@@ -37,6 +37,22 @@ export function productQuery(params = {}, shop) {
   if (stock && !["true", "false"].includes(stock))
     throw new Error("Invalid stockOnly");
   if (stock === "true") filter.quantity = { $gt: 0 };
+  const price = {};
+  for (const [key, op] of [
+    ["minPrice", "$gte"],
+    ["maxPrice", "$lte"],
+  ]) {
+    const raw = text(key);
+    if (!raw) continue;
+    if (!/^\d+(\.\d+)?$/.test(raw) || !Number.isFinite(Number(raw)))
+      throw new Error(`Invalid ${key}`);
+    price[op] = Number(raw);
+  }
+  if (price.$gte > price.$lte)
+    throw new Error(
+      "Maximum price must be greater than or equal to minimum price",
+    );
+  if (Object.keys(price).length) filter.price = price;
   return {
     filter,
     pageFilter: filter,
