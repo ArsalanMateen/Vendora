@@ -4,10 +4,12 @@ import {
   productQuery,
   CARD_FIELDS,
 } from "../helpers/productPagination.js";
-
+import pkg from "lodash";
 import errorHandler from "../helpers/dbErrorHandler.js";
 import formidable from "formidable";
-import { uploadProductImage } from "../helpers/r2.js";
+import { uploadProductImage, deleteImage } from "../helpers/r2.js";
+const { extend } = pkg;
+
 const create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
@@ -51,6 +53,35 @@ const productByID = async (req, res, next, id) => {
 
 const read = (req, res) => {
   return res.json(req.product);
+};
+
+const update = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({ message: "Photo could not be uploaded" });
+    }
+    let product = req.product;
+    product = extend(product, fields);
+    product.updated = Date.now();
+    try {
+      if (files.image) {
+        if (
+          product.image &&
+          typeof product.image === "string" &&
+          product.image.startsWith("http")
+        ) {
+          await deleteImage(product.image);
+        }
+        product.image = await uploadProductImage(files.image, product._id);
+      }
+      let result = await product.save();
+      res.json(result);
+    } catch (err) {
+      return res.status(400).json({ error: errorHandler.getErrorMessage(err) });
+    }
+  });
 };
 
 const listByShop = async (req, res) => {
@@ -139,4 +170,5 @@ export default {
   listRelated,
   listLatest,
   create,
+  update,
 };
