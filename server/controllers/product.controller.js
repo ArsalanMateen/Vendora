@@ -6,6 +6,28 @@ import {
 } from "../helpers/productPagination.js";
 
 import errorHandler from "../helpers/dbErrorHandler.js";
+import formidable from "formidable";
+import { uploadProductImage } from "../helpers/r2.js";
+const create = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({ message: "Image could not be uploaded" });
+    }
+    let product = new Product(fields);
+    product.shop = req.shop;
+    try {
+      if (files.image) {
+        product.image = await uploadProductImage(files.image, product._id);
+      }
+      let result = await product.save();
+      res.json(result);
+    } catch (err) {
+      return res.status(400).json({ error: errorHandler.getErrorMessage(err) });
+    }
+  });
+};
 
 const productByID = async (req, res, next, id) => {
   try {
@@ -116,4 +138,5 @@ export default {
   listCategories,
   listRelated,
   listLatest,
+  create,
 };
