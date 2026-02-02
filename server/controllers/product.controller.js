@@ -84,6 +84,23 @@ const update = (req, res) => {
   });
 };
 
+const remove = async (req, res) => {
+  try {
+    let product = req.product;
+    if (
+      product.image &&
+      typeof product.image === "string" &&
+      product.image.startsWith("http")
+    ) {
+      await deleteImage(product.image);
+    }
+    let deletedProduct = await Product.findByIdAndDelete(product._id);
+    res.json(deletedProduct);
+  } catch (err) {
+    return res.status(400).json({ error: errorHandler.getErrorMessage(err) });
+  }
+};
+
 const listByShop = async (req, res) => {
   try {
     res.json(await productPage(Product, req.query, req.shop._id));
@@ -171,4 +188,5 @@ export default {
   listLatest,
   create,
   update,
+  remove,
 };
