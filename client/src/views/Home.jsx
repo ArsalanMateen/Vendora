@@ -1,3 +1,4 @@
+import LoadBoundary from "../components/LoadBoundary";
 import { list } from "../api/api-product";
 import useCursorList from "../components/useCursorList";
 import ProductCard, { ProductSkeletons } from "../components/ProductCard";
@@ -40,6 +41,7 @@ export default function Home() {
             ))}
           </div>
         )}
+        <LoadBoundary page={catalog} />
       </section>
     </div>
   );
