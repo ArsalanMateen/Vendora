@@ -8,6 +8,47 @@
 .catalog {
   scroll-margin-top: 104px;
 }
+.categoryBar {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.categoryChips {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 3px;
+  margin-left: -3px;
+  scrollbar-width: thin;
+}
+.categoryChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  white-space: nowrap;
+  font-size: 14px;
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 7px;
+  transition: all 0.15s;
+}
+.categoryChip:hover {
+  border-color: var(--border);
+  color: var(--ink);
+}
+.selectedChip {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+.selectedChip:hover {
+  color: white;
+}
 .categorySelect {
   font-size: 14px;
   border: 1px solid var(--border);
