@@ -36,6 +36,7 @@ export default function Home() {
     value ? next.set("category", value) : next.delete("category");
     setParams(next);
   };
+  const [sort, setSort] = useState("newest");
   const catalog = useCursorList(
     (cursor, signal) =>
       list(
@@ -43,10 +44,11 @@ export default function Home() {
           cursor,
           search: query,
           category,
+          sort,
         },
         signal,
       ),
-    JSON.stringify([query, category]),
+    JSON.stringify([query, category, sort]),
   );
   return (
     <div className="page-container">
@@ -79,6 +81,19 @@ export default function Home() {
             </option>
           ))}
         </select>
+        <label className={styles.sortLabel}>
+          Sort products
+          <select
+            aria-label="Sort products"
+            value={sort}
+            onChange={(event) => setSort(event.target.value)}
+          >
+            <option value="newest">Newest arrivals</option>
+            <option value="price-low">Lowest price</option>
+            <option value="price-high">Highest price</option>
+            <option value="name">Alphabetical</option>
+          </select>
+        </label>
         {catalog.loading ? (
           <ProductSkeletons />
         ) : catalog.error ? (
