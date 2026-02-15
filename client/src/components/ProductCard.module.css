@@ -1,0 +1,119 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.card {
+  min-width: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 24px #0000000b;
+}
+.imageWrap {
+  aspect-ratio: 1.12;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.imageWrap > a {
+  display: block;
+  height: 100%;
+}
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  transition: transform 0.35s;
+  padding: 18px;
+}
+.card:hover .image {
+  transform: scale(1.045);
+}
+.soldOut {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: var(--ink);
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.info {
+  padding: 16px 16px 13px;
+}
+.productName {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+  height: 3.2em;
+}
+.productName:hover {
+  color: var(--accent-hover);
+}
+.shop {
+  color: var(--muted);
+  font-size: 12px;
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 7px;
+}
+.shop:hover {
+  color: var(--ink);
+}
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.price {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}
+.skeleton {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  padding-bottom: 20px;
+}
+.skeleton > div {
+  aspect-ratio: 1.12;
+  background: #f3f3f3;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.skeleton span {
+  display: block;
+  height: 12px;
+  width: 75%;
+  background: #f3f3f3;
+  border-radius: 4px;
+  margin: 20px 16px 0;
+}
+.skeleton span:last-child {
+  width: 40%;
+  margin-top: 14px;
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
