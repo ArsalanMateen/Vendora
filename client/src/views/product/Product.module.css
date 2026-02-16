@@ -104,6 +104,60 @@
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
+.actionsBox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: stretch;
+}
+.btnAddToCart,
+.btnGoToCart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  min-height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.btnAddToCart:hover:not(:disabled),
+.btnGoToCart:hover {
+  background: var(--ink-strong);
+}
+.btnAddToCart:disabled {
+  opacity: 0.45;
+}
+.btnSave {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--ink);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  min-height: 48px;
+  font-size: 15px;
+  font-weight: 500;
+}
+.btnSave.saved {
+  color: var(--accent-hover);
+  background: var(--accent-soft);
+  border-color: #f1d9c6;
+}
+.addedNotice {
+  font-size: 14px;
+  color: #466342;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+}
 .detailSkeleton {
   background: white;
   border: 1px solid var(--border);
@@ -130,6 +184,15 @@
 .detailSkeleton span:last-child {
   height: 100px;
 }
+.errorAlert {
+  font-size: 14px;
+  background: #fff1ea;
+  color: #b06a48;
+  padding: 12px;
+  border: 1px solid #f3ddcd;
+  border-radius: 7px;
+  margin-bottom: 15px;
+}
 
 .purchaseSummary {
   display: flex;
@@ -143,4 +206,17 @@
 }
 .descriptionBlock {
   margin-bottom: 26px;
+}
+.purchaseActions {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+.btnSave:hover {
+  background: #f7f7f7;
+}
+.btnAddToCart:focus-visible,
+.btnGoToCart:focus-visible,
+.btnSave:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
 }
