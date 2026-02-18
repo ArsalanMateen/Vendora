@@ -1,7 +1,7 @@
-import { apiUrl } from "../config/config.js";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useSaved, useCommerceStore } from "../state/CommerceProvider";
+import { apiUrl } from "../config/config.js";
 import Icon from "./Icon";
 import styles from "./ProductCard.module.css";
 
@@ -12,12 +12,35 @@ const priceFormatter = new Intl.NumberFormat("en-US", {
 export const formatPrice = (value) => priceFormatter.format(Number(value) || 0);
 
 export function ProductImage({ product, className, loading = "lazy" }) {
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => setFailed(false), [product._id, product.image]);
+
+  if (failed)
+    return (
+      <div
+        className={`${styles.imageFallback} ${className || ""}`}
+        role="img"
+        aria-label={`${product.name} — image unavailable`}
+      >
+        <Icon name="box" size={40} />
+        <span>Image unavailable</span>
+      </div>
+    );
+
   return (
     <img
-      src={product.image || "/api/product/image/" + product._id}
-      alt={product.name || "Product"}
+      src={
+        typeof product.image === "string" && product.image
+          ? product.image
+          : apiUrl(`/api/product/image/${product._id}`)
+      }
+      alt={product.name}
       className={className}
+      style={{ filter: "url(#vendora-image-background)" }}
       loading={loading}
+      decoding="async"
+      onError={() => setFailed(true)}
     />
   );
 }
@@ -37,6 +60,9 @@ export function ProductSkeletons({ count = 8 }) {
 }
 
 function ProductCard({ product, showShop = true }) {
+  const saved = useSaved(product._id);
+  const store = useCommerceStore();
+
   return (
     <article className={styles.card}>
       <div className={styles.imageWrap}>
@@ -46,7 +72,15 @@ function ProductCard({ product, showShop = true }) {
         >
           <ProductImage product={product} className={styles.image} />
         </Link>
-
+        <button
+          className={`${styles.saveButton} ${saved ? styles.saved : ""}`}
+          onClick={() => store.actions.toggleSaved(product._id)}
+          aria-label={`${saved ? "Unsave" : "Save"} ${product.name}`}
+          aria-pressed={saved}
+          title={saved ? "Remove from saved items" : "Save for later"}
+        >
+          <Icon name="heart" size={16} fill={saved ? "currentColor" : "none"} />
+        </button>
         {product.quantity <= 0 && (
           <span className={styles.soldOut}>Sold out</span>
         )}
