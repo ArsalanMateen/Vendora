@@ -1,7 +1,7 @@
-import { apiUrl } from "../config/config.js";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSaved, useCommerceStore } from "../state/CommerceProvider";
+import { apiUrl } from "../config/config.js";
 import Icon from "./Icon";
 import styles from "./ProductCard.module.css";
 
@@ -12,12 +12,35 @@ const priceFormatter = new Intl.NumberFormat("en-US", {
 export const formatPrice = (value) => priceFormatter.format(Number(value) || 0);
 
 export function ProductImage({ product, className, loading = "lazy" }) {
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => setFailed(false), [product._id, product.image]);
+
+  if (failed)
+    return (
+      <div
+        className={`${styles.imageFallback} ${className || ""}`}
+        role="img"
+        aria-label={`${product.name} — image unavailable`}
+      >
+        <Icon name="box" size={40} />
+        <span>Image unavailable</span>
+      </div>
+    );
+
   return (
     <img
-      src={product.image || "/api/product/image/" + product._id}
-      alt={product.name || "Product"}
+      src={
+        typeof product.image === "string" && product.image
+          ? product.image
+          : apiUrl(`/api/product/image/${product._id}`)
+      }
+      alt={product.name}
       className={className}
+      style={{ filter: "url(#vendora-image-background)" }}
       loading={loading}
+      decoding="async"
+      onError={() => setFailed(true)}
     />
   );
 }
