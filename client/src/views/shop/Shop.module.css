@@ -91,6 +91,24 @@
     opacity: 0.4;
   }
 }
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--ink);
+  background: white;
+}
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
 .editLayout .title {
   font-size: 24px;
 }
@@ -149,6 +167,19 @@
   color: var(--muted);
   margin-left: 12px;
   letter-spacing: 0;
+}
+.storefrontControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.storefrontControls .directorySearch input {
+  width: 150px;
+}
+.storefrontControls .select {
+  font-size: 12px;
+  width: 130px;
+  padding: 9px;
 }
 .storefrontWithoutLogo .storefrontInfo {
   flex-basis: 100%;
