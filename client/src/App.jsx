@@ -7,6 +7,7 @@ import Home from "./views/Home";
 import Product from "./views/product/Product";
 import Saved from "./views/Saved";
 import Shops from "./views/shop/Shops";
+import Shop from "./views/shop/Shop";
 export default function App() {
   return (
     <CommerceProvider>
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/product/:productId" element={<Product />} />
             <Route path="/saved" element={<Saved />} />
             <Route path="/shops/all" element={<Shops />} />
+            <Route path="/shops/:shopId" element={<Shop />} />
             <Route path="*" element={<p>Page not found</p>} />
           </Routes>
         </main>
