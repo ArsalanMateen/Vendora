@@ -1,9 +1,26 @@
 import { apiUrl } from "../config/config.js";
+import { batch } from "./product-batch.js";
+
+const create = async (params, credentials, product) => {
+  try {
+    let response = await fetch(apiUrl("/api/products/by/" + params.shopId), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+      body: product,
+    });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const read = async (params, signal) => {
   try {
-    let response = await fetch(apiUrl('/api/products/' + params.productId, {
-      method: 'GET',
+    let response = await fetch(apiUrl("/api/products/" + params.productId), {
+      method: "GET",
       signal: signal,
     });
     const data = await response.json();
@@ -13,30 +30,71 @@ const read = async (params, signal) => {
   }
 };
 
-const queryString = params =>
+const update = async (params, credentials, product) => {
+  try {
+    let response = await fetch(
+      apiUrl("/api/product/" + params.shopId + "/" + params.productId),
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + credentials.t,
+        },
+        body: product,
+      },
+    );
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const remove = async (params, credentials) => {
+  try {
+    let response = await fetch(
+      apiUrl("/api/product/" + params.shopId + "/" + params.productId),
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + credentials.t,
+        },
+      },
+    );
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const queryString = (params) =>
   new URLSearchParams(
-    Object.entries(params || {}).filter(
-      ([, value]) => value !== undefined && value !== null && value !== ''
-    )
+    Object.entries(params).filter(
+      ([, value]) => value !== undefined && value !== null && value !== "",
+    ),
   ).toString();
 
 const getJSON = async (url, signal) => {
   const response = await fetch(apiUrl(url), { signal });
   const data = await response.json();
-  if (!response.ok) throw new Error(data.error || 'Could not load products');
+  if (!response.ok) throw new Error(data.error || "Could not load products");
 
   return data;
 };
 
 const listByShop = ({ shopId, ...params }, signal) =>
-  getJSON('/api/products/by/' + shopId + '?' + queryString(params), signal);
+  getJSON("/api/products/by/" + shopId + "?" + queryString(params), signal);
 
 const listRelated = async (params, signal) => {
   try {
-    let response = await fetch(apiUrl('/api/products/related/' + params.productId, {
-      method: 'GET',
-      signal: signal,
-    });
+    let response = await fetch(
+      apiUrl("/api/products/related/" + params.productId),
+      {
+        method: "GET",
+        signal: signal,
+      },
+    );
     return await response.json();
   } catch (err) {
     console.error(err);
@@ -44,11 +102,23 @@ const listRelated = async (params, signal) => {
 };
 
 const metadata = (params, signal) =>
-  getJSON('/api/products/categories?' + queryString(params), signal);
+  getJSON("/api/products/categories?" + queryString(params), signal);
 
-const listCategories = async signal =>
-  (await metadata({}, signal)).categories.map(item => item.name);
+const listCategories = async (signal) =>
+  (await metadata({}, signal)).categories.map((item) => item.name);
 
-const list = (params, signal) => getJSON('/api/products?' + queryString(params), signal);
+const list = (params, signal) =>
+  getJSON("/api/products?" + queryString(params), signal);
 
-export { list, listByShop, metadata, listCategories, read, listRelated };
+export {
+  batch,
+  create,
+  read,
+  update,
+  remove,
+  listByShop,
+  listRelated,
+  listCategories,
+  metadata,
+  list,
+};
