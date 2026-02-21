@@ -11,7 +11,7 @@ export default function NewShop() {
 
   const [values, setValues] = useState({
     name: "",
-
+    description: "",
     error: "",
     loading: false,
   });
@@ -29,6 +29,7 @@ export default function NewShop() {
 
     let shopData = new FormData();
     values.name && shopData.append("name", values.name);
+    values.description && shopData.append("description", values.description);
 
     const data = await create(
       { userId: authData.user._id },
@@ -64,6 +65,17 @@ export default function NewShop() {
               required
               className={styles.input}
               placeholder="e.g. Nordic Ceramics Studio"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Description</label>
+            <textarea
+              value={values.description}
+              onChange={handleChange("description")}
+              rows="4"
+              className={styles.textarea}
+              placeholder="Tell buyers about your shop and craft..."
             />
           </div>
 
