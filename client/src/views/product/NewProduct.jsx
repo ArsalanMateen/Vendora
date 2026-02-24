@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { create } from "../../api/api-product";
 import styles from "./Product.module.css";
+import CategoryField from "../../components/CategoryField";
 
 export default function NewProduct() {
   const { shopId } = useParams();
@@ -34,6 +35,7 @@ export default function NewProduct() {
     let productData = new FormData();
     values.name && productData.append("name", values.name);
     values.description && productData.append("description", values.description);
+    values.category && productData.append("category", values.category);
     values.quantity && productData.append("quantity", values.quantity);
     values.price && productData.append("price", values.price);
 
@@ -72,6 +74,17 @@ export default function NewProduct() {
               required
               className={styles.input}
               placeholder="e.g. Minimalist Ceramic Mug"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="product-category" className={styles.label}>
+              Category
+            </label>
+            <CategoryField
+              value={values.category}
+              onChange={handleChange("category")}
+              className={styles.input}
             />
           </div>
 
