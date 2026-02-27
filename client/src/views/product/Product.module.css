@@ -308,6 +308,9 @@
   color: var(--ink);
   margin-right: 12px;
 }
+.previewWrap {
+  margin-top: 7px;
+}
 
 .purchaseSummary {
   display: flex;
