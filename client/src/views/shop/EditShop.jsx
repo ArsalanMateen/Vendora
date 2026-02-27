@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { read, update } from "../../api/api-shop";
-
+import MyProducts from "../product/MyProducts";
 import styles from "./Shop.module.css";
 
 export default function EditShop() {
@@ -101,6 +101,9 @@ export default function EditShop() {
         </div>
 
         {/* Product Inventory Management for this Shop */}
+        <div className={styles.inventorySection}>
+          <MyProducts shopId={shopId} />
+        </div>
       </div>
     </div>
   );
