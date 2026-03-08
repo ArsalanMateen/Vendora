@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { placeOrder } from "../helpers/placeOrder.js";
 import { Order } from "../models/order.model.js";
-
+import { listQuery, listResult } from "../helpers/listPagination.js";
 import Product from "../models/product.model.js";
 
 import Stripe from "stripe";
@@ -28,6 +28,28 @@ const create = async (req, res) => {
   }
 };
 
+const listByShop = async (req, res) => {
+  try {
+    const filter = { "products.shop": req.shop._id };
+    const query = listQuery(req.query, filter);
+    const [rows, totalCount] = await Promise.all([
+      Order.find(query.pageFilter)
+        .select(
+          "_id products customer_name customer_email delivery_address created",
+        )
+        .sort(query.sort)
+        .limit(query.limit + 1)
+        .populate("products.product", "_id name price image")
+        .populate("products.shop", "_id name")
+        .lean(),
+      Order.countDocuments(filter),
+    ]);
+    res.json(listResult(rows, totalCount, query, "orders"));
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const orderByID = async (req, res, next, id) => {
   try {
     let order = await Order.findById(id)
@@ -50,4 +72,24 @@ const read = (req, res) => {
   return res.json(req.order);
 };
 
-export default { create, orderByID, read };
+const listByUser = async (req, res) => {
+  try {
+    const filter = { user: req.profile._id };
+    const query = listQuery(req.query, filter);
+    const [rows, totalCount] = await Promise.all([
+      Order.find(query.pageFilter)
+        .select("_id products created")
+        .sort(query.sort)
+        .limit(query.limit + 1)
+        .populate("products.product", "_id name price image")
+        .populate("products.shop", "_id name")
+        .lean(),
+      Order.countDocuments(filter),
+    ]);
+    res.json(listResult(rows, totalCount, query, "orders"));
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export default { create, orderByID, read, listByShop, listByUser };
