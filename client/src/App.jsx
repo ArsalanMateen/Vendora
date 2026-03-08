@@ -14,6 +14,8 @@ import MyShops from "./views/shop/MyShops";
 import EditShop from "./views/shop/EditShop";
 import NewProduct from "./views/product/NewProduct";
 import EditProduct from "./views/product/EditProduct";
+import Cart from "./cart/Cart";
+import OrderReceipt from "./views/order/OrderReceipt";
 export default function App() {
   return (
     <CommerceProvider>
@@ -64,6 +66,15 @@ export default function App() {
               element={
                 <PrivateRoute sellerOnly={true}>
                   <EditProduct />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/cart" element={<Cart />} />
+            <Route
+              path="/order/:orderId"
+              element={
+                <PrivateRoute>
+                  <OrderReceipt />
                 </PrivateRoute>
               }
             />
