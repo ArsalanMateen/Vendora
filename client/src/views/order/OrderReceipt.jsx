@@ -35,14 +35,57 @@ export default function OrderReceipt() {
   if (!order) return <div className={styles.loading}>Order not found.</div>;
 
   const total = order.products
-    .reduce((a, b) => a + b.quantity * (b.price ?? b.product?.price ?? 0), 0)
+    .reduce((a, b) => a + b.quantity * b.price, 0)
     .toFixed(2);
+  const placed = new Date(order.created);
+  const address = order.delivery_address || {};
 
   return (
     <div className={styles.container}>
       <div className={styles.receiptCard}>
         <p className={styles.kicker}>Order receipt</p>
         <h1 className={styles.title}>Thank you for your order.</h1>
+
+        <dl className={styles.infoSection}>
+          <div className={styles.infoBlock}>
+            <dt>Placed on</dt>
+            <dd>
+              <time dateTime={placed.toISOString()}>
+                {placed.toLocaleDateString(undefined, {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </time>
+              <span className={styles.orderTime}>
+                {placed.toLocaleTimeString(undefined, {
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
+              </span>
+            </dd>
+          </div>
+          <div className={styles.infoBlock}>
+            <dt>Customer</dt>
+            <dd>{order.customer_name}</dd>
+          </div>
+          <div className={styles.shippingBlock}>
+            <dt>Shipping address</dt>
+            <dd>
+              <address>
+                {address.street}
+                <br />
+                {[
+                  address.city,
+                  [address.state, address.zipcode].filter(Boolean).join(" "),
+                  address.country,
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
+              </address>
+            </dd>
+          </div>
+        </dl>
 
         <h2 className={styles.itemsHeading}>Your items</h2>
         <div className={styles.itemsTable}>
@@ -73,13 +116,10 @@ export default function OrderReceipt() {
               </div>
               <div className={styles.receiptRight}>
                 <span>
-                  {item.quantity} &times;{" "}
-                  {formatPrice(item.price ?? item.product?.price)}
+                  {item.quantity} &times; {formatPrice(item.price)}
                 </span>
                 <span className={styles.receiptSub}>
-                  {formatPrice(
-                    item.quantity * (item.price ?? item.product?.price ?? 0),
-                  )}
+                  {formatPrice(item.quantity * item.price)}
                 </span>
               </div>
             </div>
@@ -89,6 +129,12 @@ export default function OrderReceipt() {
         <div className={styles.totalRow}>
           <span>Total paid</span>
           <span>${total}</span>
+        </div>
+
+        <div className={styles.actions}>
+          <Link to="/" className={styles.btnContinue}>
+            Continue shopping
+          </Link>
         </div>
       </div>
     </div>
