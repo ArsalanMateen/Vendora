@@ -11,6 +11,7 @@ import authRoutes from "./routes/auth.routes.js";
 import shopRoutes from "./routes/shop.routes.js";
 import productRoutes from "./routes/product.routes.js";
 import orderRoutes from "./routes/order.routes.js";
+import auctionRoutes from "./routes/auction.routes.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/", authRoutes);
 app.use("/", shopRoutes);
 app.use("/", productRoutes);
 app.use("/", orderRoutes);
+app.use("/", auctionRoutes);
 
 // Catch unauthorized errors
 app.use((err, req, res, next) => {
