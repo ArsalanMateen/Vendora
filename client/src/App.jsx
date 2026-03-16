@@ -17,6 +17,7 @@ import EditProduct from "./views/product/EditProduct";
 import Cart from "./cart/Cart";
 import OrderReceipt from "./views/order/OrderReceipt";
 import ShopOrders from "./views/shop/ShopOrders";
+import OpenAuctions from "./views/auction/OpenAuctions";
 export default function App() {
   return (
     <CommerceProvider>
@@ -87,6 +88,7 @@ export default function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/auctions/all" element={<OpenAuctions />} />
             <Route path="*" element={<p>Page not found</p>} />
           </Routes>
         </main>
