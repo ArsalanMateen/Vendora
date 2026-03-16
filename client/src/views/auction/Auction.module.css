@@ -1,0 +1,88 @@
+.timerBox {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.timerText {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.timerEndNotice {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+
+/* Catalog / List view */
+
+/* Form views */
+
+/* Dialog Modal */
+.timerBox {
+  background: #fff;
+  border-color: var(--border);
+  border-radius: 8px;
+}
+.timerText {
+  font-size: 14px;
+}
+.timerEndNotice {
+  font-size: 12px;
+}
+.timerBox {
+  padding: 20px;
+  border-radius: 10px;
+}
+.timerLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.countdown {
+  display: flex;
+  margin-bottom: 17px;
+}
+.countdownUnit {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  padding: 0 10px;
+  border-right: 1px solid var(--border);
+}
+.countdownUnit:first-child {
+  padding-left: 0;
+}
+.countdownUnit:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+.countdownUnit strong {
+  display: block;
+  font-size: 28px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+}
+.countdownUnit span {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.timerEndNotice {
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
