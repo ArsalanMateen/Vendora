@@ -280,6 +280,51 @@
 }
 
 /* Form views */
+.formBox {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.formTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
 
 .errorAlert {
   background: #fef2f2;
@@ -289,6 +334,23 @@
   border-radius: 6px;
   margin-bottom: 1.25rem;
   font-size: 0.9rem;
+}
+
+.btnSubmit {
+  width: 100%;
+  background: var(--ink);
+  color: #ffffff;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.btnSubmit:hover {
+  background: var(--ink-strong);
 }
 
 /* Dialog Modal */
@@ -498,6 +560,40 @@
 }
 .noBids {
   font-size: 14px;
+}
+.formBox {
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: none;
+}
+.formTitle {
+  font-size: 26px;
+  text-align: left;
+}
+.formGroup {
+  margin-bottom: 21px;
+}
+.label {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.input,
+.textarea {
+  padding: 11px 13px;
+  font-size: 14px;
+  border-radius: 8px;
+  border-color: var(--border);
+}
+.input:focus,
+.textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.btnSubmit {
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 13px 17px;
 }
 .upcomingNotice {
   padding: 17px;

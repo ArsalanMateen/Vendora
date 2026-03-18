@@ -19,6 +19,7 @@ import OrderReceipt from "./views/order/OrderReceipt";
 import ShopOrders from "./views/shop/ShopOrders";
 import OpenAuctions from "./views/auction/OpenAuctions";
 import Auction from "./views/auction/Auction";
+import NewAuction from "./views/auction/NewAuction";
 export default function App() {
   return (
     <CommerceProvider>
@@ -91,6 +92,14 @@ export default function App() {
             />
             <Route path="/auctions/all" element={<OpenAuctions />} />
             <Route path="/auction/:auctionId" element={<Auction />} />
+            <Route
+              path="/auction/new"
+              element={
+                <PrivateRoute sellerOnly={true}>
+                  <NewAuction />
+                </PrivateRoute>
+              }
+            />
             <Route path="*" element={<p>Page not found</p>} />
           </Routes>
         </main>
