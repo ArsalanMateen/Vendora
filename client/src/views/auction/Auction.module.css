@@ -326,6 +326,11 @@
   border-color: var(--accent);
 }
 
+.fileInput {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+}
+
 .errorAlert {
   background: #fef2f2;
   color: #dc2626;
@@ -590,10 +595,17 @@
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
 .btnSubmit {
   font-size: 14px;
   border-radius: 8px;
   padding: 13px 17px;
+}
+.fileInput {
+  font-size: 14px;
 }
 .upcomingNotice {
   padding: 17px;
