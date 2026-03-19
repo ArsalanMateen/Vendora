@@ -1,11 +1,11 @@
-import { apiUrl } from "../../config/config.js";
-
+import IconAction from "../../components/IconAction";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-
+import auth from "../../auth/auth-helper";
 import Icon from "../../components/Icon";
 import { ProductImage, formatPrice } from "../../components/ProductCard";
-
+import { apiUrl } from "../../config/config.js";
+import DeleteAuction from "./DeleteAuction";
 import styles from "./Auction.module.css";
 import AuctionCountdown from "./AuctionCountdown";
 
@@ -17,6 +17,8 @@ const phase = (auction) =>
       : "live";
 
 function AuctionCard({ auction, removeAuction, onBoundary }) {
+  const account = auth.isAuthenticated();
+
   const [status, setStatus] = useState(() => phase(auction));
 
   const statusRef = useRef(status);
@@ -50,12 +52,9 @@ function AuctionCard({ auction, removeAuction, onBoundary }) {
 
   const ended = status === "ended",
     upcoming = status === "upcoming";
-  const bidCount = auction.bidCount ?? auction.bids?.length ?? 0;
-  const highestBid =
-    auction.currentBid ??
-    (auction.bids?.length
-      ? Math.max(...auction.bids.map((item) => Number(item.bid)))
-      : auction.startingBid);
+  const bidCount = auction.bidCount;
+  const highestBid = auction.currentBid;
+  const isOwner = account?.user?._id === auction.seller?._id;
 
   return (
     <article className={styles.auctionTile}>
@@ -64,8 +63,7 @@ function AuctionCard({ auction, removeAuction, onBoundary }) {
           product={{
             ...auction,
             name: auction.itemName,
-            image:
-              auction.image || apiUrl(`/api/auctions/image/${auction._id}`),
+            image: auction.image || apiUrl(`/api/auctions/image/${auction._id}`),
           }}
           className={styles.auctionTilePhoto}
         />
@@ -129,6 +127,16 @@ function AuctionCard({ auction, removeAuction, onBoundary }) {
                 ? "View auction"
                 : "Join the bidding"}
           </Link>
+          {isOwner && (
+            <>
+              <IconAction
+                to={`/auction/edit/${auction._id}`}
+                icon="edit"
+                label={"Edit " + auction.itemName}
+              />
+              <DeleteAuction auction={auction} onRemove={removeAuction} />
+            </>
+          )}
         </div>
       </div>
     </article>
