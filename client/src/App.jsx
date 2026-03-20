@@ -17,6 +17,11 @@ import EditProduct from "./views/product/EditProduct";
 import Cart from "./cart/Cart";
 import OrderReceipt from "./views/order/OrderReceipt";
 import ShopOrders from "./views/shop/ShopOrders";
+import OpenAuctions from "./views/auction/OpenAuctions";
+import Auction from "./views/auction/Auction";
+import NewAuction from "./views/auction/NewAuction";
+import MyAuctions from "./views/auction/MyAuctions";
+import EditAuction from "./views/auction/EditAuction";
 export default function App() {
   return (
     <CommerceProvider>
@@ -84,6 +89,32 @@ export default function App() {
               element={
                 <PrivateRoute sellerOnly={true}>
                   <ShopOrders />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/auctions/all" element={<OpenAuctions />} />
+            <Route path="/auction/:auctionId" element={<Auction />} />
+            <Route
+              path="/auction/new"
+              element={
+                <PrivateRoute sellerOnly={true}>
+                  <NewAuction />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/myauctions"
+              element={
+                <PrivateRoute sellerOnly={true}>
+                  <MyAuctions />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/auction/edit/:auctionId"
+              element={
+                <PrivateRoute sellerOnly={true}>
+                  <EditAuction />
                 </PrivateRoute>
               }
             />
