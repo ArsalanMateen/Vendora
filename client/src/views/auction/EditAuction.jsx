@@ -55,7 +55,7 @@ export default function EditAuction() {
           ...v,
           itemName: data.itemName || "",
           description: data.description || "",
-          startingBid: data.startingBid || 0,
+          startingBid: data.startingBid,
           bidStart: data.bidStart ? getDateString(new Date(data.bidStart)) : "",
           bidEnd: data.bidEnd ? getDateString(new Date(data.bidEnd)) : "",
         }));
@@ -79,6 +79,8 @@ export default function EditAuction() {
 
     let auctionData = new FormData();
     values.itemName && auctionData.append("itemName", values.itemName);
+    values.description && auctionData.append("description", values.description);
+    values.image && auctionData.append("image", values.image);
     values.startingBid && auctionData.append("startingBid", values.startingBid);
     values.bidStart && auctionData.append("bidStart", values.bidStart);
     values.bidEnd && auctionData.append("bidEnd", values.bidEnd);
@@ -106,6 +108,26 @@ export default function EditAuction() {
             onChange={handleChange("itemName")}
             required
             className={styles.input}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Description</label>
+          <textarea
+            rows="3"
+            value={values.description}
+            onChange={handleChange("description")}
+            className={styles.textarea}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Change Item Photo</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleChange("image")}
+            className={styles.fileInput}
           />
         </div>
 
