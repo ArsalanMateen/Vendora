@@ -5,6 +5,10 @@ import extend from "lodash/extend.js";
 import errorHandler from "../helpers/dbErrorHandler.js";
 import formidable from "formidable";
 import { uploadAuctionImage, deleteImage } from "../helpers/r2.js";
+import {
+  renewSampleAuction,
+  renewSampleAuctions,
+} from "../helpers/sampleAuctionRenewal.js";
 
 const create = (req, res) => {
   let form = new formidable.IncomingForm();
@@ -16,7 +20,7 @@ const create = (req, res) => {
       });
     }
     let auction = new Auction(fields);
-
+    auction.seedBatch = undefined;
     auction.seller = req.profile;
     try {
       if (files.image) {
@@ -89,7 +93,7 @@ const defaultPhoto = (req, res) => {
 
 const read = async (req, res) => {
   try {
-    return res.json(req.auction);
+    return res.json(await renewSampleAuction({ auction: req.auction }));
   } catch {
     return res.status(500).json({ error: "Could not retrieve auction" });
   }
@@ -106,7 +110,7 @@ const update = (req, res) => {
     }
     let auction = req.auction;
     // The importer marker cannot be added or replaced through a public form.
-    const editableFields = fields;
+    const { seedBatch, ...editableFields } = fields;
     auction = extend(auction, editableFields);
     auction.updated = Date.now();
     try {
@@ -153,6 +157,7 @@ const listOpen = async (req, res) => {
   try {
     const filter = {};
     const query = listQuery(req.query, filter, "bidEnd", 1);
+    await renewSampleAuctions();
     const [rows, totalCount] = await Promise.all([
       Auction.aggregate([
         {
@@ -191,6 +196,7 @@ const counts = async (req, res) => {
 
 const listBySeller = async (req, res) => {
   try {
+    await renewSampleAuctions({ filter: { seller: req.profile._id } });
     const filter = { seller: req.profile._id };
     const query = listQuery(req.query, filter, "bidEnd", 1);
     const [rows, totalCount] = await Promise.all([
@@ -216,6 +222,7 @@ const listBySeller = async (req, res) => {
 
 const listByBidder = async (req, res) => {
   try {
+    await renewSampleAuctions({ filter: { "bids.bidder": req.profile._id } });
     const filter = { "bids.bidder": req.profile._id };
     const query = listQuery(req.query, filter, "bidEnd", 1);
     const [rows, totalCount] = await Promise.all([
@@ -253,16 +260,16 @@ const isSeller = (req, res, next) => {
 };
 
 export default {
-  auctionByID,
-  read,
-  listOpen,
   counts,
-  listBySeller,
-  listByBidder,
-  isSeller,
   create,
-  update,
-  remove,
+  auctionByID,
   photo,
   defaultPhoto,
+  listOpen,
+  listBySeller,
+  listByBidder,
+  read,
+  update,
+  isSeller,
+  remove,
 };
