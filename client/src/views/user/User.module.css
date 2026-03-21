@@ -10,6 +10,11 @@
   padding: 33px;
   box-shadow: 0 6px 25px #00000004;
 }
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 26px;
+}
 .profileHeader {
   display: flex;
   align-items: center;
@@ -24,6 +29,73 @@
   font-size: 14px;
   margin-top: 5px;
   overflow-wrap: anywhere;
+}
+.btnEdit,
+.btnSave,
+.btnShops,
+.btnCancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: white;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.btnShops,
+.btnCancel {
+  background: white;
+  color: var(--muted);
+  border-color: var(--border);
+}
+.btnEdit:hover,
+.btnSave:hover {
+  background: var(--ink-strong);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.label {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 550;
+}
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--ink);
+}
+.input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.formActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+.errorAlert {
+  font-size: 14px;
+  color: #b36c45;
+  background: #fff2e9;
+  border: 1px solid #f3ddcb;
+  padding: 13px;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 .loading {
   font-size: 14px;
