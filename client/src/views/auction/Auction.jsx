@@ -1,15 +1,16 @@
-import { apiUrl } from "../../config/config.js";
 import BackLink from "../../components/BackLink";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { read } from "../../api/api-auction.js";
 
 import Timer from "./Timer";
 import Bidding from "./Bidding";
 import { ProductImage, formatPrice } from "../../components/ProductCard";
+import { apiUrl } from "../../config/config.js";
 import Icon from "../../components/Icon";
 import styles from "./Auction.module.css";
 import socket from "./auction-socket";
+import useAuctionExpiry from "./useAuctionExpiry";
 
 export default function Auction() {
   const { auctionId } = useParams();
@@ -17,6 +18,13 @@ export default function Auction() {
   const [auction, setAuction] = useState(null);
   const [error, setError] = useState("");
   const [justEnded, setJustEnded] = useState(false);
+
+  const expiryAuctions = useMemo(() => (auction ? [auction] : []), [auction]);
+
+  useAuctionExpiry(expiryAuctions, (data) => {
+    setAuction(data);
+    setJustEnded(false);
+  });
 
   useEffect(() => {
     if (!auction) return;
@@ -116,11 +124,7 @@ export default function Auction() {
     );
   }
 
-  const imageUrl =
-    auction.image ||
-    (auction._id
-      ? `/api/auctions/image/${auction._id}`
-      : "/api/auctions/defaultphoto");
+  const imageUrl = auction.image || apiUrl(`/api/auctions/image/${auction._id}`);
 
   const currentDate = new Date();
   const isPending = currentDate < new Date(auction.bidStart);
@@ -133,7 +137,7 @@ export default function Auction() {
   const highestBid =
     auction.bids && auction.bids.length > 0
       ? auction.bids[0].bid
-      : auction.startingBid || 0;
+      : auction.startingBid;
 
   return (
     <div className={styles.container}>
