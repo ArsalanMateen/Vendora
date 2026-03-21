@@ -130,6 +130,67 @@ export default function useCursorList(
   }, [identity, fetchPage]);
 
   // Reconnect recovery keeps mounted cards/timers and revalidates only loaded pages.
+  const refresh = useCallback(async () => {
+    if (
+      request.current ||
+      current.current.identity !== identity ||
+      !loadedPages.current
+    )
+      return;
+    const controller = new AbortController();
+    request.current = controller;
+    const token = generation.current;
+    setState((previous) => ({
+      ...previous,
+      refreshing: true,
+      refreshError: "",
+    }));
+    const pagesWanted = loadedPages.current;
+    const items = [],
+      ids = new Set();
+    let cursor = null,
+      page,
+      pagesRead = 0;
+    try {
+      do {
+        page = await loaderRef.current(cursor, controller.signal);
+        if (controller.signal.aborted || token !== generation.current) return;
+        validatePage(page, field, cursor);
+        page[field].forEach((item) => {
+          if (!ids.has(item._id)) {
+            ids.add(item._id);
+            items.push(item);
+          }
+        });
+        cursor = page.nextCursor;
+        pagesRead += 1;
+      } while (page.hasMore && pagesRead < pagesWanted);
+      loadedPages.current = pagesRead;
+      setState((previous) =>
+        token !== generation.current
+          ? previous
+          : {
+              ...previous,
+              data: items,
+              totalCount: page.totalCount,
+              hasMore: page.hasMore,
+              nextCursor: page.nextCursor,
+              refreshing: false,
+              refreshError: "",
+              loadMoreError: "",
+            },
+      );
+    } catch (error) {
+      if (!controller.signal.aborted && token === generation.current)
+        setState((previous) => ({
+          ...previous,
+          refreshing: false,
+          refreshError: error.message,
+        }));
+    } finally {
+      if (request.current === controller) request.current = null;
+    }
+  }, [identity, field]);
 
   const remove = useCallback(
     (id) =>
@@ -155,7 +216,7 @@ export default function useCursorList(
     loadMore,
     remove,
     setData,
-
+    refresh,
     retry: useCallback(() => setRevision((value) => value + 1), []),
   };
 }
