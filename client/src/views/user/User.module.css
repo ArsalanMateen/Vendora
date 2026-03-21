@@ -1,0 +1,59 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 38px 36px;
+}
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 33px;
+  box-shadow: 0 6px 25px #00000004;
+}
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.name {
+  font-size: 28px;
+  font-weight: 700;
+}
+.email {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+.loading {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  padding: 75px 20px;
+}
+.profileHeader {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+.profileIdentity {
+  min-width: 0;
+}
+.profileTools {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.accountBadge {
+  display: inline-flex;
+  border: 1px solid #f0d9c8;
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}

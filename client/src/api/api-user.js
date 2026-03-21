@@ -1,19 +1,54 @@
 import { apiUrl } from "../config/config.js";
-const create = async user => {
+
+const create = async (user) => {
   try {
-    let response = await fetch(apiUrl('/api/users', {
-      method: 'POST',
+    let response = await fetch(apiUrl("/api/users"), {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
     return await response.json();
   } catch (err) {
     console.error(err);
-    return { error: 'Network error occurred' };
+    return { error: "Network error occurred" };
   }
 };
 
-export { create };
+const read = async (params, credentials, signal) => {
+  try {
+    let response = await fetch(apiUrl("/api/users/" + params.userId), {
+      method: "GET",
+      signal: signal,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const update = async (params, credentials, user) => {
+  try {
+    let response = await fetch(apiUrl("/api/users/" + params.userId), {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+      body: JSON.stringify(user),
+    });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export { create, read, update };

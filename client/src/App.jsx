@@ -22,6 +22,7 @@ import Auction from "./views/auction/Auction";
 import NewAuction from "./views/auction/NewAuction";
 import MyAuctions from "./views/auction/MyAuctions";
 import EditAuction from "./views/auction/EditAuction";
+import Profile from "./views/user/Profile";
 export default function App() {
   return (
     <CommerceProvider>
@@ -115,6 +116,14 @@ export default function App() {
               element={
                 <PrivateRoute sellerOnly={true}>
                   <EditAuction />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/user/:userId"
+              element={
+                <PrivateRoute>
+                  <Profile />
                 </PrivateRoute>
               }
             />
