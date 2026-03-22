@@ -24,6 +24,7 @@ import MyAuctions from "./views/auction/MyAuctions";
 import EditAuction from "./views/auction/EditAuction";
 import Profile from "./views/user/Profile";
 import EditProfile from "./views/user/EditProfile";
+import StripeConnect from "./views/user/StripeConnect";
 export default function App() {
   return (
     <CommerceProvider>
@@ -133,6 +134,14 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <EditProfile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/seller/stripe/connect"
+              element={
+                <PrivateRoute>
+                  <StripeConnect />
                 </PrivateRoute>
               }
             />
