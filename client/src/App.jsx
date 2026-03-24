@@ -26,6 +26,7 @@ import EditAuction from "./views/auction/EditAuction";
 import Profile from "./views/user/Profile";
 import EditProfile from "./views/user/EditProfile";
 import StripeConnect from "./views/user/StripeConnect";
+import Guide from "./views/Guide";
 export default function App() {
   return (
     <CommerceProvider>
@@ -147,6 +148,7 @@ export default function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/guide" element={<Guide />} />
             <Route path="*" element={<p>Page not found</p>} />
           </Routes>
         </main>
