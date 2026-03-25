@@ -153,3 +153,39 @@
     opacity: 0.4;
   }
 }
+@media (max-width: 1250px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .info {
+    padding: 12px 11px;
+  }
+  .saveButton {
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+  }
+  .image {
+    padding: 12px;
+  }
+  .productName {
+    font-size: 16px;
+    height: 3.2em;
+  }
+  .price {
+    font-size: 16px;
+  }
+  .shop {
+    font-size: 12px;
+  }
+  .imageWrap {
+    aspect-ratio: 1;
+  }
+}
