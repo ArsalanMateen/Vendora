@@ -170,3 +170,55 @@
   font-size: 14px;
   color: var(--muted);
 }
+@media (max-width: 900px) {
+  .container {
+    padding: 28px 25px;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 25px 18px;
+  }
+  .receiptCard {
+    padding: 24px 20px;
+  }
+  .title {
+    font-size: 25px;
+  }
+  .infoSection {
+    gap: 20px;
+    padding: 18px;
+  }
+  .shippingBlock {
+    padding: 14px;
+  }
+  .receiptRow {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .itemImage {
+    width: 48px;
+    height: 60px;
+  }
+  .itemInfo {
+    flex-basis: calc(100% - 60px);
+  }
+  .receiptRight {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 60px;
+  }
+  .totalRow {
+    padding: 15px;
+    font-size: 23px;
+  }
+}
+@media (max-width: 400px) {
+  .infoSection {
+    grid-template-columns: 1fr;
+  }
+  .actions .btnContinue {
+    width: 100%;
+  }
+}
