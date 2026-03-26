@@ -38,3 +38,16 @@
 .card a:hover {
   color: var(--accent-hover);
 }
+@media (max-width: 1150px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 24px;
+  }
+}

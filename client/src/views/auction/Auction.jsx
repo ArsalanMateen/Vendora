@@ -11,6 +11,7 @@ import Icon from "../../components/Icon";
 import styles from "./Auction.module.css";
 import socket from "./auction-socket";
 import useAuctionExpiry from "./useAuctionExpiry";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function Auction() {
   const { auctionId } = useParams();
@@ -118,7 +119,9 @@ export default function Auction() {
             <Link to="/auctions/all">Explore auctions</Link>
           </div>
         ) : (
-          <div className={styles.noBids}>Loading auction details…</div>
+          <div className={styles.noBids}>
+            <LoadingSpinner label="Loading auction details…" />
+          </div>
         )}
       </div>
     );

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { read, update } from "../../api/api-auction.js";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import styles from "./Auction.module.css";
 
 const getDateString = (date) => {
@@ -170,7 +171,7 @@ export default function EditAuction() {
           disabled={values.loading}
           className={styles.btnSubmit}
         >
-          {values.loading ? "Updating Auction..." : "Save Changes"}
+          {values.loading ? <LoadingSpinner label="Updating auction" /> : "Save Changes"}
         </button>
       </form>
     </div>

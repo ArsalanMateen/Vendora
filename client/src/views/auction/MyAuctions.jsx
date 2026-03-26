@@ -6,6 +6,7 @@ import auth from "../../auth/auth-helper";
 import { listBySeller } from "../../api/api-auction.js";
 import Auctions from "./Auctions";
 import styles from "./Auction.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function MyAuctions() {
   const jwt = auth.isAuthenticated();
@@ -36,7 +37,7 @@ export default function MyAuctions() {
 
       {loading ? (
         <div style={{ textAlign: "center", padding: "2rem", color: "#64748b" }}>
-          Loading your auctions...
+          <LoadingSpinner label="Loading your auctions…" />
         </div>
       ) : page.error ? (
         <p role="alert">

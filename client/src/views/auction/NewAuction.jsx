@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { create } from "../../api/api-auction.js";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import styles from "./Auction.module.css";
 
 const getDateString = (date) => {
@@ -165,7 +166,7 @@ export default function NewAuction() {
           disabled={values.loading}
           className={styles.btnSubmit}
         >
-          {values.loading ? "Creating Auction..." : "Publish Auction"}
+          {values.loading ? <LoadingSpinner label="Creating auction" /> : "Publish Auction"}
         </button>
       </form>
     </div>
