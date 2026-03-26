@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { read, update } from "../../api/api-product";
 import styles from "./Product.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import CategoryField from "../../components/CategoryField";
 
 export default function EditProduct() {
@@ -27,7 +28,7 @@ export default function EditProduct() {
   useEffect(() => {
     const abortController = new AbortController();
     read({ productId }, abortController.signal).then((data) => {
-      if (data && !data.error) {
+      if (!data.error) {
         setValues((prev) => ({
           ...prev,
           name: data.name,
@@ -38,7 +39,7 @@ export default function EditProduct() {
           imageUrl: data.image || "",
           loading: false,
         }));
-      } else if (data && data.error) {
+      } else {
         navigate("/seller/shop/edit/" + shopId);
       }
     });
@@ -79,7 +80,7 @@ export default function EditProduct() {
       { t: authData.token },
       productData,
     );
-    if (!data || data.error) {
+    if (data.error) {
       setValues({
         ...values,
         error:
@@ -91,7 +92,11 @@ export default function EditProduct() {
   };
 
   if (values.loading)
-    return <div className={styles.loading}>Loading product...</div>;
+    return (
+      <div className={styles.loading}>
+        <LoadingSpinner label="Loading product details…" />
+      </div>
+    );
 
   return (
     <div className={styles.formContainer}>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { create } from "../../api/api-user";
 import Icon from "../../components/Icon";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import AuthLayout from "./AuthLayout";
 import styles from "./Auth.module.css";
 
@@ -30,7 +31,7 @@ export default function Signup() {
     const { name, email, password, seller } = values;
     const data = await create({ name, email, password, seller });
     setPending(false);
-    if (data?.error || !data)
+    if (data.error)
       setValues((previous) => ({
         ...previous,
         error:
@@ -145,7 +146,7 @@ export default function Signup() {
             <Icon name="shop" size={19} />
           </label>
           <button type="submit" className={styles.btnSubmit} disabled={pending}>
-            {pending ? "Creating your account…" : "Create account"}
+            {pending ? <LoadingSpinner label="Creating your account" /> : "Create account"}
           </button>
         </form>
       )}

@@ -9,8 +9,12 @@
   color: var(--accent-hover);
   font-size: 14px;
   font-weight: 500;
+  gap: 7px;
   line-height: 1.5;
   text-decoration: none;
+}
+.arrow {
+  flex: 0 0 auto;
 }
 .link.link:hover {
   color: var(--accent-hover);

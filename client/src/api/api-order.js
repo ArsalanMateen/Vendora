@@ -51,6 +51,7 @@ const update = async (params, credentials, product) => {
     return await response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -62,7 +63,9 @@ const getStatusValues = async (signal) => {
     });
     return await response.json();
   } catch (err) {
+    if (err.name === "AbortError") return;
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -98,6 +101,7 @@ const read = async (params, credentials, signal) => {
     return await response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 

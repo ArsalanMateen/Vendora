@@ -14,6 +14,7 @@ const create = async (params, credentials, product) => {
     return await response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -26,7 +27,9 @@ const read = async (params, signal) => {
     const data = await response.json();
     return response.status === 404 ? { ...data, notFound: true } : data;
   } catch (err) {
+    if (err.name === "AbortError") return;
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -46,6 +49,7 @@ const update = async (params, credentials, product) => {
     return await response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -65,6 +69,7 @@ const remove = async (params, credentials) => {
     return await response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -97,7 +102,9 @@ const listRelated = async (params, signal) => {
     );
     return await response.json();
   } catch (err) {
+    if (err.name === "AbortError") return;
     console.error(err);
+    return { error: "Network error" };
   }
 };
 

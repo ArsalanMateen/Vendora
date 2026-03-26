@@ -4,6 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { apiUrl } from "../../config/config.js";
 import styles from "./User.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function StripeConnect() {
   const [searchParams] = useSearchParams();
@@ -76,7 +77,7 @@ export default function StripeConnect() {
           <div>
             <p className={styles.metaInfo}>{status}</p>
             <div className={styles.loading}>
-              Finalizing your merchant credentials...
+              <LoadingSpinner label="Finalizing your merchant credentials…" />
             </div>
           </div>
         )}

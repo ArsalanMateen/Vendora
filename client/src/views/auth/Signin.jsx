@@ -1,9 +1,9 @@
-import BackLink from "../../components/BackLink";
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { signin } from "../../api/api-auth";
 import Icon from "../../components/Icon";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import AuthLayout from "./AuthLayout";
 import styles from "./Auth.module.css";
 
@@ -107,7 +107,7 @@ export default function Signin() {
           </div>
         </div>
         <button type="submit" className={styles.btnSubmit} disabled={pending}>
-          {pending ? "Signing you in…" : "Sign in"}
+          {pending ? <LoadingSpinner label="Signing you in" /> : "Sign in"}
         </button>
       </form>
       <div className={styles.divider} role="separator" aria-label="or">
@@ -143,9 +143,6 @@ export default function Signin() {
           Create an account
         </Link>
       </p>
-      <div className={styles.backNavigation}>
-        <BackLink to="/">Back to Discover</BackLink>
-      </div>
     </AuthLayout>
   );
 }

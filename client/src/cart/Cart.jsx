@@ -8,6 +8,7 @@ import CartItems from "./CartItems";
 import PlaceOrder from "./PlaceOrder";
 import config from "../config/config";
 import Icon from "../components/Icon";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 import { formatPrice } from "../components/ProductCard";
 import styles from "./Cart.module.css";
@@ -61,7 +62,11 @@ export default function Cart() {
           </p>
         </div>
       </div>
-      {!cartItems.length && !syncing ? (
+      {syncing ? (
+        <div className={styles.cartLoading} aria-busy="true">
+          <LoadingSpinner label="Checking the latest prices and availability…" />
+        </div>
+      ) : !cartItems.length ? (
         <div className="empty-state">
           <Icon name="bag" size={38} />
           <h3>Room for your next favorite.</h3>
@@ -74,19 +79,14 @@ export default function Cart() {
       ) : (
         <div className={styles.cartLayout}>
           <div className={styles.leftCol}>
-            {syncing && (
-              <p className={styles.syncNotice} role="status">
-                Checking the latest prices and availability…
-              </p>
-            )}
             {hydration.error && (
               <p role="alert">
                 {hydration.error}
                 <button onClick={hydration.retry}>Try again</button>
               </p>
             )}
-            <CartItems cartItems={cartItems} disabled={syncing} />
-            {!syncing && invalid && (
+            <CartItems cartItems={cartItems} />
+            {invalid && (
               <div className={styles.errorAlert} role="alert">
                 Some items are unavailable or exceed the current stock. Update
                 your bag to continue.
@@ -108,7 +108,7 @@ export default function Cart() {
                 <span>Total</span>
                 <span>{formatPrice(total)}</span>
               </div>
-              {cartItems.length > 0 && !syncing && !invalid && (
+              {cartItems.length > 0 && !invalid && (
                 <Elements stripe={getStripe()}>
                   <PlaceOrder cartItems={cartItems} />
                 </Elements>

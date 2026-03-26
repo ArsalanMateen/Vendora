@@ -24,17 +24,24 @@ export default function OpenAuctions() {
   const [boundary, setBoundary] = useState(0);
   const [renewed, setRenewed] = useState({});
   const [liveCount, setLiveCount] = useState(null);
+  const [countError, setCountError] = useState("");
   const [countsRevision, setCountsRevision] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+    setCountError("");
     const timer = setTimeout(
       () =>
         counts(controller.signal)
           .then((data) => {
-            if (!controller.signal.aborted) setLiveCount(data.liveCount);
+            if (controller.signal.aborted) return;
+            if (!Number.isInteger(data.liveCount))
+              throw new Error(data.error || "Could not load auction counts");
+            setLiveCount(data.liveCount);
           })
-          .catch(() => {}),
+          .catch((error) => {
+            if (!controller.signal.aborted) setCountError(error.message);
+          }),
       100,
     );
 
@@ -120,11 +127,21 @@ export default function OpenAuctions() {
           </p>
         </div>
         {!loading && !error && (
-          <span className={styles.livePill}>
-            <span />
-            {liveCount ?? live.length} live{" "}
-            {(liveCount ?? live.length) === 1 ? "auction" : "auctions"}
-          </span>
+          <>
+            <span className={styles.livePill}>
+              <span />
+              {liveCount ?? live.length} live{" "}
+              {(liveCount ?? live.length) === 1 ? "auction" : "auctions"}
+            </span>
+            {countError && (
+              <p className={styles.errorAlert} role="alert">
+                {countError}{" "}
+                <button onClick={() => setCountsRevision((value) => value + 1)}>
+                  Try again
+                </button>
+              </p>
+            )}
+          </>
         )}
       </div>
       {loading ? (

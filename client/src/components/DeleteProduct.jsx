@@ -13,7 +13,7 @@ export default function DeleteProduct({ shopId, product, onDeleted }) {
       { shopId, productId: product._id },
       { t: authData.token },
     );
-    if (data && !data.error) {
+    if (!data.error) {
       setOpen(false);
       onDeleted(product._id);
     }

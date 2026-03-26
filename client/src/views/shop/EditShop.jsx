@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { read, update } from "../../api/api-shop";
 import MyProducts from "../product/MyProducts";
 import styles from "./Shop.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function EditShop() {
   const { shopId } = useParams();
@@ -17,18 +18,20 @@ export default function EditShop() {
     error: "",
     loading: true,
   });
+  const [inventoryLoading, setInventoryLoading] = useState(true);
 
   useEffect(() => {
     const abortController = new AbortController();
     read({ shopId }, abortController.signal).then((data) => {
-      if (data && !data.error) {
+      if (abortController.signal.aborted) return;
+      if (!data.error) {
         setValues((prev) => ({
           ...prev,
           name: data.name,
           description: data.description || "",
           loading: false,
         }));
-      } else if (data && data.error) {
+      } else {
         navigate("/seller/shops");
       }
     });
@@ -50,19 +53,31 @@ export default function EditShop() {
     values.description && shopData.append("description", values.description);
 
     const data = await update({ shopId }, { t: authData.token }, shopData);
-    if (data && data.error) {
+    if (data.error) {
       setValues({ ...values, error: data.error });
     } else {
       navigate("/seller/shops");
     }
   };
 
-  if (values.loading)
-    return <div className={styles.loading}>Loading shop details...</div>;
+  const handleInventoryLoading = useCallback(
+    (loading) => setInventoryLoading(loading),
+    [],
+  );
+
+  const initialLoading = values.loading || inventoryLoading;
 
   return (
     <div className={styles.container}>
-      <div className={styles.editLayout}>
+      {initialLoading && (
+        <div className={styles.loading}>
+          <LoadingSpinner label="Loading shop details" />
+        </div>
+      )}
+      <div
+        className={styles.editLayout}
+        style={{ display: initialLoading ? "none" : undefined }}
+      >
         <div className={styles.formCard}>
           <h2 className={styles.title}>Edit Shop Details</h2>
 
@@ -102,7 +117,10 @@ export default function EditShop() {
 
         {/* Product Inventory Management for this Shop */}
         <div className={styles.inventorySection}>
-          <MyProducts shopId={shopId} />
+          <MyProducts
+            shopId={shopId}
+            onLoadingChange={handleInventoryLoading}
+          />
         </div>
       </div>
     </div>

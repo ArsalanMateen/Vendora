@@ -10,6 +10,7 @@ import Auctions from "../auction/Auctions";
 import IconAction from "../../components/IconAction";
 import { ProductImage, formatPrice } from "../../components/ProductCard";
 import styles from "./User.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -42,6 +43,8 @@ export default function Profile() {
 
   const orders = orderPage.data;
   const bidAuctions = bidPage.data;
+  const initialLoading =
+    loading || (isSelf && (orderPage.loading || bidPage.loading));
 
   const removeBidAuction = useCallback(
     (auction) => bidPage.remove(auction._id),
@@ -77,7 +80,12 @@ export default function Profile() {
       document.getElementById("orders")?.scrollIntoView({ block: "start" });
   }, [loading, location.hash]);
 
-  if (loading) return <div className={styles.loading}>Loading profile…</div>;
+  if (initialLoading)
+    return (
+      <div className={styles.loading}>
+        <LoadingSpinner label="Loading profile…" />
+      </div>
+    );
   if (error || !user)
     return (
       <div className={styles.loading} role="alert">
@@ -114,7 +122,7 @@ export default function Profile() {
           >
             <h2 className={styles.ordersTitle}>My orders</h2>
             {orderPage.loading ? (
-              <p>Loading orders</p>
+              <LoadingSpinner label="Loading orders…" />
             ) : orderPage.error ? (
               <p role="alert">
                 {orderPage.error}
@@ -209,7 +217,7 @@ export default function Profile() {
           <section className={styles.ordersSection}>
             <h2 className={styles.ordersTitle}>My bids</h2>
             {bidPage.loading ? (
-              <p>Loading auctions</p>
+              <LoadingSpinner label="Loading auctions…" />
             ) : bidPage.error ? (
               <p role="alert">
                 {bidPage.error}

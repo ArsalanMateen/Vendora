@@ -2,13 +2,15 @@ import { ProductImage } from "../../components/ProductCard";
 import IconAction from "../../components/IconAction";
 
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { listByShop } from "../../api/api-product";
 import useCursorList from "../../components/useCursorList";
 import LoadBoundary from "../../components/LoadBoundary";
 import DeleteProduct from "../../components/DeleteProduct";
 import styles from "./Product.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
-export default function MyProducts({ shopId }) {
+export default function MyProducts({ shopId, onLoadingChange }) {
   const page = useCursorList(
     (cursor, signal) => listByShop({ shopId, cursor }, signal),
     shopId,
@@ -17,6 +19,10 @@ export default function MyProducts({ shopId }) {
   const products = page.data;
   const loading = page.loading;
   const handleDeleted = page.remove;
+
+  useEffect(() => {
+    onLoadingChange?.(loading);
+  }, [loading, onLoadingChange]);
 
   return (
     <div className={styles.inventoryCard}>
@@ -38,7 +44,9 @@ export default function MyProducts({ shopId }) {
       </div>
 
       {loading ? (
-        <div className={styles.loadingSmall}>Loading products...</div>
+        <div className={styles.loadingSmall}>
+          <LoadingSpinner label="Loading products" />
+        </div>
       ) : page.error ? (
         <div role="alert">
           {page.error}

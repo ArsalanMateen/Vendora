@@ -30,7 +30,9 @@ const read = async (params, credentials, signal) => {
     });
     return await response.json();
   } catch (err) {
+    if (err.name === "AbortError") return;
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -48,6 +50,7 @@ const update = async (params, credentials, user) => {
     return await response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 

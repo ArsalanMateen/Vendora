@@ -35,6 +35,12 @@
   gap: 2.5rem;
 }
 
+@media (max-width: 768px) {
+  .auctionGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .imageBox {
   width: 100%;
   height: 320px;
@@ -712,6 +718,90 @@
   border-radius: 8px;
   font-size: 14px;
 }
+@media (max-width: 1150px) {
+  .auctionList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .headerRow .title {
+    font-size: 24px;
+  }
+}
+@media (max-width: 900px) {
+  .container {
+    padding: 28px 25px;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 25px 18px;
+  }
+  .title {
+    font-size: 26px;
+  }
+  .pageHeader {
+    flex-wrap: wrap;
+    gap: 17px;
+  }
+  .auctionList {
+    gap: 14px;
+  }
+  .auctionTileBody {
+    padding: 15px;
+  }
+  .auctionTile .listTitle {
+    font-size: 14px;
+    height: 3.4em;
+  }
+  .auctionTilePrice strong {
+    font-size: 20px;
+  }
+  .auctionTilePrice > span:last-child {
+    font-size: 12px;
+  }
+  .auctionTileTime {
+    font-size: 12px;
+  }
+  .auctionTilePhoto {
+    padding: 16px;
+  }
+  .auctionTileImage .badge {
+    top: 9px;
+    left: 9px;
+    font-size: 12px;
+  }
+  .auctionTile .btnView {
+    font-size: 12px;
+  }
+  .card {
+    padding: 20px;
+  }
+  .headerRow {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .headerRow .title {
+    font-size: 23px;
+  }
+  .formBox {
+    padding: 25px;
+    margin: 25px 18px;
+  }
+  .formTitle {
+    font-size: 24px;
+  }
+  .bidsTable th,
+  .bidsTable td {
+    padding: 9px 5px;
+  }
+  .bidsHistory {
+    overflow-x: auto;
+  }
+}
+@media (max-width: 370px) {
+  .auctionList {
+    grid-template-columns: 1fr;
+  }
+}
 
 .auctionTileMeta {
   display: flex;
@@ -792,4 +882,18 @@
   font-size: 14px;
   line-height: 1.6;
   color: var(--muted);
+}
+@media (max-width: 600px) {
+  .timerBox {
+    padding: 17px 14px;
+  }
+  .countdownUnit {
+    padding: 0 7px;
+  }
+  .countdownUnit strong {
+    font-size: 24px;
+  }
+  .timerEndNotice {
+    font-size: 14px;
+  }
 }

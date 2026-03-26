@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { create } from "../../api/api-shop";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import styles from "./Shop.module.css";
 
 export default function NewShop() {
@@ -36,7 +37,7 @@ export default function NewShop() {
       { t: authData.token },
       shopData,
     );
-    if (data && data.error) {
+    if (data.error) {
       setValues({ ...values, error: data.error, loading: false });
     } else {
       navigate("/seller/shops");
@@ -85,7 +86,7 @@ export default function NewShop() {
               disabled={values.loading}
               className={styles.btnSubmit}
             >
-              {values.loading ? "Creating..." : "Launch Shop"}
+              {values.loading ? <LoadingSpinner label="Creating shop" /> : "Launch Shop"}
             </button>
             <Link to="/seller/shops" className={styles.btnCancel}>
               Cancel

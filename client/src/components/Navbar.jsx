@@ -276,9 +276,6 @@ export default function Navbar() {
                 </div>
                 {authData ? (
                   <>
-                    <Link to={accountPath} role="menuitem">
-                      My profile
-                    </Link>
                     <Link
                       to={`/user/edit/${authData.user._id}`}
                       role="menuitem"

@@ -5,6 +5,7 @@ import auth from "../../auth/auth-helper";
 import { create } from "../../api/api-product";
 import styles from "./Product.module.css";
 import CategoryField from "../../components/CategoryField";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function NewProduct() {
   const { shopId } = useParams();
@@ -55,7 +56,7 @@ export default function NewProduct() {
     values.price && productData.append("price", values.price);
 
     const data = await create({ shopId }, { t: authData.token }, productData);
-    if (!data || data.error) {
+    if (data.error) {
       setValues({
         ...values,
         error:
@@ -169,7 +170,7 @@ export default function NewProduct() {
               disabled={values.loading}
               className={styles.btnSubmit}
             >
-              {values.loading ? "Adding..." : "Add to Inventory"}
+              {values.loading ? <LoadingSpinner label="Adding product" /> : "Add to Inventory"}
             </button>
             <Link
               to={"/seller/shop/edit/" + shopId}

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { read, update } from "../../api/api-user";
 import styles from "./User.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import Icon from "../../components/Icon";
 
 export default function EditProfile() {
@@ -63,7 +64,7 @@ export default function EditProfile() {
     if (values.password) user.password = values.password;
 
     const data = await update({ userId }, { t: authData.token }, user);
-    if (!data || data.error) {
+    if (data.error) {
       setValues({
         ...values,
         error:
@@ -76,7 +77,12 @@ export default function EditProfile() {
     }
   };
 
-  if (values.loading) return <div className={styles.loading}>Loading...</div>;
+  if (values.loading)
+    return (
+      <div className={styles.loading}>
+        <LoadingSpinner label="Loading profile…" />
+      </div>
+    );
 
   return (
     <div className={styles.container}>

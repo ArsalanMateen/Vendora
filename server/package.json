@@ -1,5 +1,5 @@
 {
-  "name": "marketplace-server",
+  "name": "vendora-server",
   "version": "1.0.0",
   "description": "Backend REST API for MERN Marketplace",
   "main": "server.js",

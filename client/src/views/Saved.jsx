@@ -10,8 +10,6 @@ import cards from "../components/ProductCard.module.css";
 export default function Saved() {
   const { savedIds } = useCommerce();
 
-  const saved = savedIds;
-
   const {
     products: available,
     loading,
@@ -41,8 +39,8 @@ export default function Saved() {
             <p className="page-description" style={{ marginBottom: 18 }}>
               {available.length} saved{" "}
               {available.length === 1 ? "item" : "items"} available
-              {saved.length > available.length
-                ? ` · ${saved.length - available.length} no longer listed`
+              {savedIds.length > available.length
+                ? ` · ${savedIds.length - available.length} no longer listed`
                 : ""}
             </p>
             <div className={cards.grid}>
@@ -55,7 +53,7 @@ export default function Saved() {
           <div className="empty-state">
             <Icon name="heart" size={34} />
             <h3>
-              {saved.length
+              {savedIds.length
                 ? "These finds are no longer listed"
                 : "Something catch your eye?"}
             </h3>

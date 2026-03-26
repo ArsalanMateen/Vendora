@@ -61,8 +61,6 @@ export default function Shop() {
     return () => controller.abort();
   }, [shopId, revision]);
 
-  const filtered = products;
-
   return (
     <div className={styles.container}>
       <BackLink to="/shops/all">Back to shops</BackLink>
@@ -120,7 +118,7 @@ export default function Shop() {
               <p role="alert">{catalog.error}</p>
               <button onClick={catalog.retry}>Try again</button>
             </div>
-          ) : !filtered.length ? (
+          ) : !products.length ? (
             <div className="empty-state">
               <Icon name="box" size={32} />
               <h3>
@@ -136,7 +134,7 @@ export default function Shop() {
           ) : (
             <>
               <div className={cards.grid}>
-                {filtered.map((product) => (
+                {products.map((product) => (
                   <ProductCard
                     product={product}
                     key={product._id}

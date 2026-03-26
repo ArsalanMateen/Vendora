@@ -8,6 +8,7 @@ import { read as readShop } from "../../api/api-shop";
 import { ProductImage, formatPrice } from "../../components/ProductCard";
 import BackLink from "../../components/BackLink";
 import styles from "./ShopOrders.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function ShopOrders() {
   const { shopId } = useParams();
@@ -29,6 +30,7 @@ export default function ShopOrders() {
   const [statusValues, setStatusValues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [detailsRevision, setDetailsRevision] = useState(0);
   const [statusErrors, setStatusErrors] = useState({});
   const [pending, setPending] = useState({});
 
@@ -39,15 +41,27 @@ export default function ShopOrders() {
     Promise.all([
       readShop({ shopId }, controller.signal),
       getStatusValues(controller.signal),
-    ]).then(([shopData, statuses]) => {
-      if (controller.signal.aborted) return;
-      if (shopData && !shopData.error) setShop(shopData);
-      if (Array.isArray(statuses)) setStatusValues(statuses);
-      setLoading(false);
-    });
+    ])
+      .then(([shopData, statuses]) => {
+        if (controller.signal.aborted) return;
+        if (shopData.error || statuses.error)
+          throw new Error(
+            shopData.error ||
+              statuses.error ||
+              "Could not load shop order details",
+          );
+        setShop(shopData);
+        setStatusValues(statuses);
+      })
+      .catch((requestError) => {
+        if (!controller.signal.aborted) setError(requestError.message);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
 
     return () => controller.abort();
-  }, [shopId]);
+  }, [shopId, detailsRevision]);
 
   const handleStatusChange = async (orderId, itemIndex, status) => {
     const itemId = `${orderId}-${itemIndex}`;
@@ -58,7 +72,7 @@ export default function ShopOrders() {
       { t: authData.token },
       { orderId, itemIndex, status },
     );
-    if (data && !data.error) {
+    if (!data.error) {
       setOrders((previous) =>
         previous.map((order) =>
           order._id === orderId
@@ -74,7 +88,7 @@ export default function ShopOrders() {
     } else {
       setStatusErrors((previous) => ({
         ...previous,
-        [itemId]: data?.error || "Couldn’t update the status. Try again.",
+        [itemId]: data.error,
       }));
     }
     setPending((previous) => ({ ...previous, [itemId]: false }));
@@ -93,12 +107,19 @@ export default function ShopOrders() {
       </header>
       {loading || page.loading ? (
         <div className={styles.emptyCard} aria-busy="true">
-          Loading orders…
+          <LoadingSpinner label="Loading orders…" />
         </div>
       ) : error || page.error ? (
         <div className={styles.emptyCard} role="alert">
           {error || page.error}
-          <button onClick={page.retry}>Try again</button>
+          <button
+            onClick={() => {
+              page.retry();
+              setDetailsRevision((value) => value + 1);
+            }}
+          >
+            Try again
+          </button>
         </div>
       ) : !orders.length ? (
         <div className={styles.emptyCard}>

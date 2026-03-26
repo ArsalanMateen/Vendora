@@ -35,7 +35,7 @@ export default function Product() {
     setRelated([]);
     read({ productId }, controller.signal).then((data) => {
       if (controller.signal.aborted) return;
-      if (data?._id) setProduct(data);
+      if (!data.error) setProduct(data);
       else
         setError(
           data?.error || "We couldn’t load this product. Please try again.",

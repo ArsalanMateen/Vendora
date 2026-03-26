@@ -320,6 +320,120 @@
   padding: 13px;
   font-size: 14px;
 }
+@media (max-width: 1200px) {
+  .myShopItem {
+    flex-wrap: wrap;
+  }
+  .myShopActions {
+    justify-content: flex-start;
+    width: 100%;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+  }
+  .storefrontCount {
+    display: none;
+  }
+  .editLayout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 1000px) {
+  .shopGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .catalogHeadingRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .storefrontControls {
+    width: 100%;
+  }
+  .storefrontControls .directorySearch {
+    flex: 1;
+  }
+  .storefrontControls .directorySearch input {
+    width: 100%;
+  }
+}
+@media (max-width: 900px) {
+  .container {
+    padding: 28px 25px;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 25px 18px;
+  }
+  .title {
+    font-size: 26px;
+  }
+  .subtitle {
+    font-size: 14px;
+  }
+  .pageHeader {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .shopGrid {
+    gap: 14px;
+  }
+  .cardContent {
+    padding: 16px;
+  }
+  .shopName {
+    font-size: 16px;
+  }
+  .shopDesc {
+    font-size: 12px;
+    height: 3.6em;
+  }
+  .shopCardFooter {
+    font-size: 12px;
+  }
+  .storefrontHeader {
+    padding: 23px;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .storefrontInfo {
+    flex-basis: calc(100% - 94px);
+  }
+  .storefrontInfo .page-kicker {
+    font-size: 12px;
+  }
+  .storefrontInfo .title {
+    font-size: 23px;
+  }
+  .storefrontBio {
+    font-size: 12px;
+  }
+  .storefrontControls .select {
+    width: 120px;
+  }
+  .formCard {
+    padding: 25px;
+  }
+  .formContainer {
+    padding: 0 18px;
+  }
+  .myShopItem {
+    padding: 18px;
+  }
+  .myShopDesc {
+    font-size: 12px;
+  }
+  .myShopActions {
+    gap: 7px;
+  }
+  .myShopActions .btnView {
+    font-size: 12px;
+  }
+}
+@media (max-width: 380px) {
+  .shopGrid {
+    grid-template-columns: 1fr;
+  }
+}
 .inventorySection {
   min-width: 0;
 }

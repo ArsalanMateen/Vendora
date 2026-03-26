@@ -30,6 +30,7 @@ const create = async (params, credentials, auction) => {
     return response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -52,6 +53,7 @@ const read = async (params, signal) => {
   } catch (err) {
     if (err.name !== "AbortError") {
       console.error(err);
+      return { error: "Network error" };
     }
   }
 };
@@ -69,6 +71,7 @@ const update = async (params, credentials, auction) => {
     return response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -85,6 +88,7 @@ const remove = async (params, credentials) => {
     return response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 

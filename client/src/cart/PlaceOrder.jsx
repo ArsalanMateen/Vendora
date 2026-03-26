@@ -4,6 +4,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import auth from "../auth/auth-helper";
 import cart from "./cart-helper";
 import { create } from "../api/api-order";
+import LoadingSpinner from "../components/LoadingSpinner";
 import config from "../config/config";
 import Icon from "../components/Icon";
 import styles from "./Cart.module.css";
@@ -203,7 +204,7 @@ export default function PlaceOrder({ cartItems }) {
         disabled={values.loading || !stripe || !elements || !cartItems.length}
         className={styles.btnPlaceOrder}
       >
-        {values.loading ? "Placing order…" : "Place Order"}
+        {values.loading ? <LoadingSpinner label="Placing order" /> : "Place Order"}
       </button>
     </form>
   );

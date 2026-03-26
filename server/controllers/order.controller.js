@@ -9,6 +9,17 @@ import config from "../config/config.js";
 
 const myStripe = new Stripe(config.stripe_test_secret_key);
 
+const restoreLineItemPrices = (order) => ({
+  ...order,
+  products: order.products.map((item) => ({
+    ...item,
+    price:
+      Number.isFinite(item.price) && item.price > 0
+        ? item.price
+        : item.product?.price ?? item.price,
+  })),
+});
+
 const create = async (req, res) => {
   try {
     const result = await placeOrder(
@@ -45,7 +56,9 @@ const listByShop = async (req, res) => {
         .lean(),
       Order.countDocuments(filter),
     ]);
-    res.json(listResult(rows, totalCount, query, "orders"));
+    res.json(
+      listResult(rows.map(restoreLineItemPrices), totalCount, query, "orders"),
+    );
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -105,7 +118,7 @@ const orderByID = async (req, res, next, id) => {
     if (!order) {
       return res.status(400).json({ error: "Order not found" });
     }
-    req.order = order;
+    req.order = restoreLineItemPrices(order);
     next();
   } catch (err) {
     return res.status(400).json({ error: "Could not retrieve order" });
@@ -130,7 +143,9 @@ const listByUser = async (req, res) => {
         .lean(),
       Order.countDocuments(filter),
     ]);
-    res.json(listResult(rows, totalCount, query, "orders"));
+    res.json(
+      listResult(rows.map(restoreLineItemPrices), totalCount, query, "orders"),
+    );
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

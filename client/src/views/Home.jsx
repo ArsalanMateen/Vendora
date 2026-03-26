@@ -54,17 +54,25 @@ export default function Home() {
   );
 
   const [categories, setCategories] = useState([]);
+  const [categoryError, setCategoryError] = useState("");
+  const [categoryRevision, setCategoryRevision] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+    setCategoryError("");
     metadata({}, controller.signal)
       .then((data) => {
-        if (!controller.signal.aborted) setCategories(data.categories);
+        if (controller.signal.aborted) return;
+        if (!Array.isArray(data.categories))
+          throw new Error(data.error || "Could not load categories");
+        setCategories(data.categories);
       })
-      .catch(() => {});
+      .catch((error) => {
+        if (!controller.signal.aborted) setCategoryError(error.message);
+      });
 
     return () => controller.abort();
-  }, []);
+  }, [categoryRevision]);
 
   const previousFilterKey = useRef(filterKey);
 
@@ -224,6 +232,14 @@ export default function Home() {
               ))}
           </select>
         </div>
+        {categoryError && (
+          <p className={styles.priceError} role="alert">
+            {categoryError}{" "}
+            <button onClick={() => setCategoryRevision((value) => value + 1)}>
+              Try again
+            </button>
+          </p>
+        )}
         <div className={styles.catalogToolbar}>
           <span className={styles.resultCount} role="status">
             {catalog.loading

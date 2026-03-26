@@ -25,7 +25,9 @@ const list = async (signal) => {
     });
     return await response.json();
   } catch (err) {
+    if (err.name === "AbortError") return;
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -41,7 +43,9 @@ const listByOwner = async (params, credentials, signal) => {
     });
     return await response.json();
   } catch (err) {
+    if (err.name === "AbortError") return;
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -53,7 +57,9 @@ const read = async (params, signal) => {
     });
     return await response.json();
   } catch (err) {
+    if (err.name === "AbortError") return;
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -70,6 +76,7 @@ const update = async (params, credentials, shop) => {
     return await response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 
@@ -86,6 +93,7 @@ const remove = async (params, credentials) => {
     return await response.json();
   } catch (err) {
     console.error(err);
+    return { error: "Network error" };
   }
 };
 

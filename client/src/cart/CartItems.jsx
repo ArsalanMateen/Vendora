@@ -4,11 +4,11 @@ import { ProductImage, formatPrice } from "../components/ProductCard";
 import Icon from "../components/Icon";
 import styles from "./Cart.module.css";
 
-export default function CartItems({ cartItems, disabled }) {
+export default function CartItems({ cartItems }) {
   const updateQuantity = (index, nextQuantity) => {
     const item = cartItems[index];
     const maximum = item.product.quantity;
-    if (disabled || item.unavailable || maximum <= 0) return;
+    if (item.unavailable || maximum <= 0) return;
     const value = Math.min(
       maximum,
       Math.max(1, Number.parseInt(nextQuantity, 10) || 1),
@@ -83,7 +83,6 @@ export default function CartItems({ cartItems, disabled }) {
                   className={styles.qtyButton}
                   aria-label={`Decrease quantity for ${item.product.name}`}
                   disabled={
-                    disabled ||
                     item.unavailable ||
                     item.product.quantity <= 0 ||
                     item.quantity <= 1
@@ -101,7 +100,7 @@ export default function CartItems({ cartItems, disabled }) {
                   max={Math.max(1, item.product.quantity)}
                   value={item.quantity}
                   disabled={
-                    disabled || item.unavailable || item.product.quantity <= 0
+                    item.unavailable || item.product.quantity <= 0
                   }
                   onChange={(event) =>
                     updateQuantity(index, event.target.value)
@@ -113,7 +112,6 @@ export default function CartItems({ cartItems, disabled }) {
                   className={styles.qtyButton}
                   aria-label={`Increase quantity for ${item.product.name}`}
                   disabled={
-                    disabled ||
                     item.unavailable ||
                     item.product.quantity <= 0 ||
                     item.quantity >= item.product.quantity
@@ -129,7 +127,6 @@ export default function CartItems({ cartItems, disabled }) {
             </span>
             <button
               type="button"
-              disabled={disabled}
               onClick={() => remove(index)}
               className={styles.btnRemove}
               aria-label={`Remove ${item.product.name}`}

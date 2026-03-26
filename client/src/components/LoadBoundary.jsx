@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 export default function LoadBoundary({ page, children }) {
   const ref = useRef(null);
 
@@ -41,7 +42,7 @@ export default function LoadBoundary({ page, children }) {
       aria-label="List progress"
     >
       {children}
-      {page.loadingMore && <p role="status">Loading more</p>}
+      {page.loadingMore && <LoadingSpinner label="Loading more" />}
       {page.loadMoreError && (
         <>
           <p role="alert">{page.loadMoreError}</p>

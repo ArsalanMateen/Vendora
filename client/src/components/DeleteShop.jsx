@@ -10,7 +10,7 @@ export default function DeleteShop({ shop, onDeleted }) {
 
   const handleDelete = async () => {
     const data = await remove({ shopId: shop._id }, { t: authData.token });
-    if (data && !data.error) {
+    if (!data.error) {
       setOpen(false);
       onDeleted(shop._id);
     }

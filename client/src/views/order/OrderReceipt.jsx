@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import auth from "../../auth/auth-helper";
 import { read } from "../../api/api-order";
 import styles from "./Order.module.css";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import { ProductImage, formatPrice } from "../../components/ProductCard";
 
 export default function OrderReceipt() {
@@ -20,7 +21,7 @@ export default function OrderReceipt() {
     read({ orderId }, { t: authData.token }, abortController.signal).then(
       (data) => {
         if (abortController.signal.aborted) return;
-        if (data && !data.error) {
+        if (!data.error) {
           setOrder(data);
         }
         setLoading(false);
@@ -31,7 +32,11 @@ export default function OrderReceipt() {
   }, [orderId]);
 
   if (loading)
-    return <div className={styles.loading}>Loading order receipt...</div>;
+    return (
+      <div className={styles.loading}>
+        <LoadingSpinner label="Loading order receipt…" />
+      </div>
+    );
   if (!order) return <div className={styles.loading}>Order not found.</div>;
 
   const total = order.products
