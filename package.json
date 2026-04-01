@@ -1,0 +1,14 @@
+{
+  "name": "marketplace",
+  "version": "1.0.0",
+  "description": "Online Marketplace Application",
+  "private": true,
+  "scripts": {
+    "client": "npm --prefix client run dev",
+    "client:build": "npm --prefix client run build",
+    "server": "npm --prefix server start",
+    "server:dev": "npm --prefix server run dev"
+  },
+  "author": "Arsalan Mateen",
+  "license": "MIT"
+}
