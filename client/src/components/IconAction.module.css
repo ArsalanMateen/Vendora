@@ -1,0 +1,28 @@
+.action.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+}
+.action.action:hover {
+  background: #f5f5f5;
+  border-color: #d5d5d5;
+}
+.action.action.danger {
+  color: #a84330;
+}
+.action.action.danger:hover {
+  background: #fff2ee;
+  border-color: #edc7bb;
+}
+.action.action:disabled {
+  opacity: 0.5;
+}
