@@ -1,0 +1,114 @@
+.authContainer {
+  max-width: 480px;
+  margin: 46px auto;
+  padding: 0 36px;
+  min-height: 590px;
+  display: flex;
+  align-items: center;
+}
+.authCard {
+  width: 100%;
+  max-width: 390px;
+  margin: auto;
+  padding: 16px 0;
+}
+.title {
+  font-size: 30px;
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.3;
+}
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.label {
+  font-size: 14px;
+  font-weight: 550;
+  color: var(--muted);
+}
+.input {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  font-size: 14px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.input::placeholder {
+  color: var(--muted);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.passwordField .input {
+  padding-right: 44px;
+}
+.btnSubmit {
+  background: var(--ink);
+  color: white;
+  width: 100%;
+  padding: 13px 17px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+  margin-top: 4px;
+  transition: background 0.2s;
+}
+.btnSubmit:hover {
+  background: var(--ink-strong);
+}
+.btnSubmit:disabled {
+  opacity: 0.6;
+}
+.errorAlert {
+  border: 1px solid #f1d3c8;
+  background: #fff2ed;
+  color: #ac5337;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.successAlert {
+  font-size: 14px;
+  color: #6c8554;
+}
+.successAlert p {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 8px;
+  margin-bottom: 28px;
+}
+.switchText {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 26px;
+}
+.switchLink {
+  color: var(--accent-hover);
+  font-weight: 600;
+}
