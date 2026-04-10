@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import auth from '../../auth/auth-helper';
 import { signin } from '../../api/api-auth';
-
+import Icon from '../../components/Icon';
 import AuthLayout from './AuthLayout';
 import styles from './Auth.module.css';
 
@@ -13,7 +13,7 @@ export default function Signin() {
 
   const [values, setValues] = useState({ email: '', password: '', error: '' });
   const [pending, setPending] = useState(false);
-  
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = name => event =>
     setValues(previous => ({ ...previous, [name]: event.target.value, error: '' }));
@@ -67,8 +67,26 @@ export default function Signin() {
           <label htmlFor="signin-password" className={styles.label}>
             Password
           </label>
-          
-<input id="signin-password" type="password" autoComplete="current-password" value={values.password} onChange={handleChange('password')} required className={styles.input} />
+          <div className={styles.passwordField}>
+            <input
+              id="signin-password"
+              type={showPassword ? 'text' : 'password'}
+              autoComplete="current-password"
+              value={values.password}
+              onChange={handleChange('password')}
+              required
+              className={styles.input}
+              placeholder="Enter your password"
+            />
+            <button
+              type="button"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword(value => !value)}
+            >
+              <Icon name={showPassword ? 'eyeOff' : 'eye'} size={18} />
+            </button>
+          </div>
         </div>
         <button type="submit" className={styles.btnSubmit} disabled={pending}>
           {pending ? 'Signing you in…' : 'Sign in'}

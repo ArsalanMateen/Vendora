@@ -15,6 +15,7 @@ export default function Signup() {
     success: false,
   });
   const [pending, setPending] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = name => event =>
     setValues(previous => ({ ...previous, [name]: event.target.value, error: '' }));
@@ -93,8 +94,27 @@ export default function Signup() {
             <label htmlFor="signup-password" className={styles.label}>
               Password
             </label>
-            
-<input id="signup-password" type="password" autoComplete="new-password" value={values.password} onChange={handleChange('password')} required minLength={6} className={styles.input} />
+            <div className={styles.passwordField}>
+              <input
+                id="signup-password"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                value={values.password}
+                onChange={handleChange('password')}
+                required
+                minLength={6}
+                className={styles.input}
+                placeholder="At least 6 characters"
+              />
+              <button
+                type="button"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-pressed={showPassword}
+                onClick={() => setShowPassword(value => !value)}
+              >
+                <Icon name={showPassword ? 'eyeOff' : 'eye'} size={18} />
+              </button>
+            </div>
           </div>
           <label className={styles.sellerOption}>
             <input
