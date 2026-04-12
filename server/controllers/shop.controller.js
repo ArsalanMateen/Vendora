@@ -1,6 +1,26 @@
 import Shop from '../models/shop.model.js';
 import errorHandler from '../helpers/dbErrorHandler.js';
+import formidable from 'formidable';
 
+const create = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({ message: 'Shop details could not be processed' });
+    }
+    if (Object.keys(files).length || fields.image)
+      return res.status(400).json({ error: 'Shop images are no longer accepted.' });
+    let shop = new Shop({ name: fields.name, description: fields.description });
+    shop.owner = req.profile;
+    try {
+      let result = await shop.save();
+      res.status(200).json(result);
+    } catch (err) {
+      return res.status(400).json({ error: errorHandler.getErrorMessage(err) });
+    }
+  });
+};
 
 const shopByID = async (req, res, next, id) => {
   try {
@@ -53,4 +73,4 @@ const isOwner = (req, res, next) => {
   next();
 };
 
-export default { shopByID, read, list, listByOwner, isOwner };
+export default { shopByID, read, list, listByOwner, isOwner, create };
