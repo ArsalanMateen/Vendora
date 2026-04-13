@@ -41,6 +41,28 @@ const read = (req, res) => {
   return res.json(req.shop);
 };
 
+const update = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({ message: 'Shop details could not be processed' });
+    }
+    let shop = req.shop;
+    if (Object.keys(files).length || fields.image)
+      return res.status(400).json({ error: 'Shop images are no longer accepted.' });
+    if (fields.name !== undefined) shop.name = fields.name;
+    if (fields.description !== undefined) shop.description = fields.description;
+    shop.updated = Date.now();
+    try {
+      let result = await shop.save();
+      res.json(result);
+    } catch (err) {
+      return res.status(400).json({ error: errorHandler.getErrorMessage(err) });
+    }
+  });
+};
+
 const list = async (req, res) => {
   try {
     let shops = await Shop.find()
@@ -73,4 +95,4 @@ const isOwner = (req, res, next) => {
   next();
 };
 
-export default { shopByID, read, list, listByOwner, isOwner, create };
+export default { shopByID, read, list, listByOwner, isOwner, create, update };
