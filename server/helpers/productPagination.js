@@ -1,0 +1,30 @@
+
+
+
+export const CARD_FIELDS = '_id name price category quantity image shop created';
+const sorts = {
+  newest: ['created', -1],
+  'price-low': ['price', 1],
+  'price-high': ['price', -1],
+  name: ['name', 1],
+};
+export function productQuery(params = {}, shop) {
+  const text = (key, max = 200) => {
+    const value = params[key];
+    if (value === undefined || value === '') return '';
+    if (typeof value !== 'string' || value.length > max) throw new Error(`Invalid ${key}`);
+
+    return value.trim();
+  };
+
+  const sort = text('sort') || 'newest';
+  if (!Object.hasOwn(sorts, sort)) throw new Error('Invalid sort');
+  const rawLimit = text('limit');
+  if (rawLimit && !/^\d+$/.test(rawLimit)) throw new Error('Invalid limit');
+  const limit = rawLimit ? Number(rawLimit) : 12;
+  if (!Number.isSafeInteger(limit) || limit < 1 || limit > 50)
+    throw new Error('Limit must be between 1 and 50');
+  const filter = {};
+  if (shop) filter.shop = shop;
+  return { filter, pageFilter: filter, limit, sort: { [sorts[sort][0]]: sorts[sort][1], _id: sorts[sort][1] } };
+}
