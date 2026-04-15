@@ -31,5 +31,8 @@ export function productQuery(params = {}, shop) {
     filter.name = { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' };
   const category = text('category');
   if (category && category !== 'All') filter.category = category;
+  const stock = text('stockOnly') || text('stock');
+  if (stock && !['true', 'false'].includes(stock)) throw new Error('Invalid stockOnly');
+  if (stock === 'true') filter.quantity = { $gt: 0 };
   return { filter, pageFilter: filter, limit, sort: { [sorts[sort][0]]: sorts[sort][1], _id: sorts[sort][1] } };
 }
