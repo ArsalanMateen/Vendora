@@ -26,5 +26,8 @@ export function productQuery(params = {}, shop) {
     throw new Error('Limit must be between 1 and 50');
   const filter = {};
   if (shop) filter.shop = shop;
+  const search = text('search');
+  if (search)
+    filter.name = { $regex: search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' };
   return { filter, pageFilter: filter, limit, sort: { [sorts[sort][0]]: sorts[sort][1], _id: sorts[sort][1] } };
 }
