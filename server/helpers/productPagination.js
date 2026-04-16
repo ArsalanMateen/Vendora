@@ -1,5 +1,5 @@
-
-
+import crypto from 'node:crypto';
+import mongoose from 'mongoose';
 
 export const CARD_FIELDS = '_id name price category quantity image shop created';
 const sorts = {
@@ -48,5 +48,51 @@ export function productQuery(params = {}, shop) {
   if (price.$gte > price.$lte)
     throw new Error('Maximum price must be greater than or equal to minimum price');
   if (Object.keys(price).length) filter.price = price;
-  return { filter, pageFilter: filter, limit, sort: { [sorts[sort][0]]: sorts[sort][1], _id: sorts[sort][1] } };
+  const identity = crypto
+    .createHash('sha256')
+    .update(JSON.stringify([sort, filter]))
+    .digest('hex');
+  const [field, direction] = sorts[sort];
+  let pageFilter = filter;
+  const rawCursor = text('cursor', 1500);
+  if (rawCursor) {
+    let cursor;
+    try {
+      if (!/^[A-Za-z0-9_-]+$/.test(rawCursor)) throw new Error();
+      cursor = JSON.parse(Buffer.from(rawCursor, 'base64url').toString());
+      if (cursor.v !== 1 || cursor.identity !== identity || !/^[a-f\d]{24}$/i.test(cursor.id))
+        throw new Error();
+      if (
+        field === 'created'
+          ? typeof cursor.value !== 'string' || !Number.isFinite(Date.parse(cursor.value))
+          : field === 'price'
+            ? typeof cursor.value !== 'number' || !Number.isFinite(cursor.value)
+            : typeof cursor.value !== 'string'
+      )
+        throw new Error();
+    } catch {
+      throw new Error('Invalid or incompatible cursor');
+    }
+    const value = field === 'created' ? new Date(cursor.value) : cursor.value;
+    const op = direction === 1 ? '$gt' : '$lt';
+    pageFilter = {
+      $and: [
+        filter,
+        {
+          $or: [
+            { [field]: { [op]: value } },
+            { [field]: value, _id: { [op]: mongoose.Types.ObjectId(cursor.id) } },
+          ],
+        },
+      ],
+    };
+  }
+
+  const nextCursor = product =>
+    Buffer.from(
+      JSON.stringify({ v: 1, identity, id: String(product._id), value: product[field] })
+    ).toString('base64url');
+
+  return { filter, pageFilter, limit, sort: { [field]: direction, _id: direction }, nextCursor };
 }
+
