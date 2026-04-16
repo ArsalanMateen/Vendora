@@ -96,3 +96,26 @@ export function productQuery(params = {}, shop) {
   return { filter, pageFilter, limit, sort: { [field]: direction, _id: direction }, nextCursor };
 }
 
+export async function productPage(model, params, shop) {
+  const query = productQuery(params, shop);
+  const [rows, totalCount] = await Promise.all([
+    model
+      .find(query.pageFilter)
+      .select(CARD_FIELDS)
+      .sort(query.sort)
+      .limit(query.limit + 1)
+      .populate('shop', '_id name')
+      .lean()
+      .exec(),
+    model.countDocuments(query.filter),
+  ]);
+  const hasMore = rows.length > query.limit;
+  const products = rows.slice(0, query.limit);
+
+  return {
+    products,
+    totalCount,
+    hasMore,
+    nextCursor: hasMore ? query.nextCursor(products[products.length - 1]) : null,
+  };
+}
