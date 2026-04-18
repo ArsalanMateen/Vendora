@@ -2,11 +2,16 @@ import express from 'express';
 
 import productCtrl from '../controllers/product.controller.js';
 
-
+import authCtrl from '../controllers/auth.controller.js';
 
 import shopCtrl from '../controllers/shop.controller.js';
 
 const router = express.Router();
+
+router
+  .route('/api/products/by/:shopId')
+  .post(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.create)
+  .get(productCtrl.listByShop);
 
 router.route('/api/products/latest').get(productCtrl.listLatest);
 
