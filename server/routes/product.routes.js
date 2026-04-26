@@ -28,6 +28,10 @@ router
   .put(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.update)
   .delete(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.remove);
 
+router.route('/api/product/image/:productId').get(productCtrl.photo, productCtrl.defaultPhoto);
+
+router.route('/api/product/defaultphoto').get(productCtrl.defaultPhoto);
+
 router.param('shopId', shopCtrl.shopByID);
 
 router.param('productId', productCtrl.productByID);
