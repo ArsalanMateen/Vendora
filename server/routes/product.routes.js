@@ -23,6 +23,11 @@ router.route('/api/products').get(productCtrl.list);
 
 router.route('/api/products/:productId').get(productCtrl.read);
 
+router
+  .route('/api/product/:shopId/:productId')
+  .put(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.update)
+  .delete(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.remove);
+
 router.param('shopId', shopCtrl.shopByID);
 
 router.param('productId', productCtrl.productByID);
