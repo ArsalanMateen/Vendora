@@ -1,10 +1,22 @@
 const validId = value => typeof value === 'string' && /^[a-f\d]{24}$/i.test(value);
 export const SAVED_KEY = 'vendora-saved-products';
 export function normalizeSaved(value) {
-  return [...new Set((Array.isArray(value) ? value : []).filter(validId))];
+  return [...new Set((Array.isArray(value) ? value : []).map(item => typeof item === 'string' ? item : item?._id).filter(validId).map(id => id.toLowerCase()))];
 }
 export function normalizeCart(value) {
-  return (Array.isArray(value) ? value : []).filter(item => validId(item.productId) && Number.isSafeInteger(item.quantity) && item.quantity > 0);
+  const items = new Map();
+  for (const item of Array.isArray(value) ? value : []) {
+    const id = item?.productId || item?.product?._id;
+    const quantity = Number(item?.quantity);
+    if (!validId(id) || !Number.isSafeInteger(quantity) || quantity < 1) continue;
+    const productId = id.toLowerCase();
+    const total = (items.get(productId)?.quantity || 0) + quantity;
+    if (Number.isSafeInteger(total)) items.set(productId, {
+      productId,
+      quantity: total
+    });
+  }
+  return [...items.values()];
 }
 export function createCommerceStore(storage) {
   const read = key => {
