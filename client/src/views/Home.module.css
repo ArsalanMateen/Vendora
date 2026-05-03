@@ -8,6 +8,48 @@
 .catalog {
   scroll-margin-top: 104px;
 }
+.catalogSearch {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 22px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 5px 5px 13px;
+  color: var(--muted);
+  background: #fff;
+}
+.catalogSearch input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: 14px;
+  padding: 6px 0;
+}
+.catalogSearch:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.catalogSearch button {
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  width: 40px;
+  height: 40px;
+  padding: 9px;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.catalogSearch button:hover {
+  background: #f5f5f5;
+}
 .catalog {
   overflow-anchor: none;
 }
