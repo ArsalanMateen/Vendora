@@ -1,3 +1,4 @@
+import LoadBoundary from '../components/LoadBoundary';
 import { list } from '../api/api-product';
 import useCursorList from '../components/useCursorList';
 import ProductCard, { ProductSkeletons } from '../components/ProductCard';
@@ -20,6 +21,7 @@ export default function Home() {
       </div> : !catalog.data.length ? <p>No products listed yet.</p> : <div className={cardStyles.grid}>
         {catalog.data.map(product => <ProductCard product={product} key={product._id} />)}
       </div>}
+      <LoadBoundary page={catalog} />
     </section>
   </div>;
 }
