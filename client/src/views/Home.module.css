@@ -17,6 +17,22 @@
   color: var(--muted);
   max-width: 180px;
 }
+.sortLabel {
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sortLabel select {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 6px 2px;
+  font-weight: 500;
+  max-width: 160px;
+}
 .catalogSearch {
   display: flex;
   align-items: center;
