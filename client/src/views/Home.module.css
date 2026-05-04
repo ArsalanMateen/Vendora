@@ -102,6 +102,26 @@
   align-items: center;
   gap: 19px;
 }
+.filterButton {
+  border: 1px solid var(--border);
+  background: white;
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.filtersActive {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+  background: var(--accent-soft);
+}
+.filterButton span {
+  font-size: 14px;
+  font-weight: 650;
+}
 .sortLabel {
   font-size: 14px;
   color: var(--muted);
@@ -159,6 +179,174 @@
 }
 .catalogSearch button:hover {
   background: #f5f5f5;
+}
+.filterPanel {
+  max-width: 650px;
+  margin: 0 0 24px auto;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 19px 21px 22px;
+  box-shadow: 0 5px 20px #00000004;
+}
+.filterHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 17px;
+  margin-bottom: 19px;
+  border-bottom: 1px solid var(--border);
+}
+.filterHeader > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.filterHeader h2 {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.filterHeader > div > span {
+  color: var(--accent-hover);
+  background: var(--accent-soft);
+  font-size: 14px;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+.filterHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.filterHeaderActions button {
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 4px;
+}
+.filterHeaderActions button:hover {
+  color: var(--ink);
+}
+.filterHeaderActions button:disabled {
+  opacity: 0.4;
+}
+.filterHeaderActions .closeFilters {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  background: #f7f7f7;
+  border-radius: 6px;
+}
+.filterFields {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.8fr) minmax(240px, 1.6fr);
+  gap: 28px;
+  align-items: start;
+}
+.filterFieldLabel,
+.priceFilter legend {
+  display: block;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.stockFilter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.stockFilter input {
+  appearance: none;
+  width: 32px;
+  height: 19px;
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+  background: #ededed;
+  position: relative;
+  flex-shrink: 0;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.stockFilter input::before {
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  background: #fff;
+  box-shadow: 0 1px 3px #0000001a;
+  transition: transform 0.15s;
+}
+.stockFilter input:checked {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.stockFilter input:checked::before {
+  transform: translateX(13px);
+}
+.priceFilter {
+  min-width: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.priceInputs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.priceInputs label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #e3e3e3;
+  border-radius: 7px;
+  padding: 0 11px;
+  height: 40px;
+  flex: 1;
+  min-width: 0;
+}
+.priceInputs label:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.priceCurrency {
+  font-size: 14px;
+  color: #707070;
+}
+.priceInputs input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 14px;
+  color: var(--ink);
+  padding: 8px 0;
+}
+.priceInputs input::placeholder {
+  color: #707070;
+}
+.priceSeparator {
+  font-size: 14px;
+  color: #707070;
+}
+.priceError {
+  color: #b64b32;
+  font-size: 14px;
+  margin-top: 16px;
 }
 .catalog {
   overflow-anchor: none;

@@ -22,17 +22,17 @@ export default function Home() {
   const category = params.get('category') || '';
 
   const [sort, setSort] = useState('newest');
-  
-  
-  
-  
+  const [stockOnly, setStockOnly] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
-  const filterKey = JSON.stringify([query, category, sort]);
+  const filterKey = JSON.stringify([query, category, sort, stockOnly, minPrice, maxPrice]);
 
   const catalog = useCursorList(
     (cursor, signal) =>
       list(
-        { search: query, category, sort, cursor },
+        { search: query, category, sort, stockOnly: String(stockOnly), minPrice, maxPrice, cursor },
         signal
       ),
     filterKey
@@ -83,7 +83,7 @@ export default function Home() {
     return shortcuts;
   }, [categories, category]);
 
-  
+  const priceError = minPrice !== '' && maxPrice !== '' && Number(minPrice) > Number(maxPrice);
 
   useLayoutEffect(() => {
     if (previousFilterKey.current !== filterKey) {
@@ -113,12 +113,19 @@ export default function Home() {
 
   const reset = () => {
     setParams({});
+    setStockOnly(false);
+    setMinPrice('');
+    setMaxPrice('');
     setSort('newest');
   };
 
-  
+  const resetProductFilters = () => {
+    setStockOnly(false);
+    setMinPrice('');
+    setMaxPrice('');
+  };
 
-  
+  const activeFilters = Number(stockOnly) + Number(minPrice !== '') + Number(maxPrice !== '');
 
   return (
     <div className="page-container">
@@ -199,7 +206,15 @@ export default function Home() {
             )}
           </span>
           <div className={styles.toolbarControls}>
-            
+            <button
+              className={`${styles.filterButton} ${activeFilters ? styles.filtersActive : ''}`}
+              aria-expanded={filtersOpen}
+              aria-controls="product-filters"
+              onClick={() => setFiltersOpen(value => !value)}
+            >
+              <Icon name="filter" size={14} />
+              Filters{activeFilters > 0 && <span>{activeFilters}</span>}
+            </button>
             <label className={styles.sortLabel}>
               Sort by:
               <select
@@ -215,7 +230,78 @@ export default function Home() {
             </label>
           </div>
         </div>
-        
+        {filtersOpen && (
+          <section id="product-filters" className={styles.filterPanel} aria-label="Product filters">
+            <div className={styles.filterHeader}>
+              <div>
+                <h2>Filter products</h2>
+                {activeFilters > 0 && <span>{activeFilters} active</span>}
+              </div>
+              <div className={styles.filterHeaderActions}>
+                <button type="button" onClick={resetProductFilters} disabled={!activeFilters}>
+                  Reset
+                </button>
+                <button
+                  type="button"
+                  className={styles.closeFilters}
+                  aria-label="Close filters"
+                  onClick={() => setFiltersOpen(false)}
+                >
+                  <Icon name="close" size={17} />
+                </button>
+              </div>
+            </div>
+            <div className={styles.filterFields}>
+              <div className={styles.availabilityField}>
+                <span className={styles.filterFieldLabel}>Availability</span>
+                <label className={styles.stockFilter}>
+                  <input
+                    type="checkbox"
+                    role="switch"
+                    checked={stockOnly}
+                    onChange={event => setStockOnly(event.target.checked)}
+                  />
+                  <span>In stock only</span>
+                </label>
+              </div>
+              <fieldset className={styles.priceFilter}>
+                <legend>Price range</legend>
+                <div className={styles.priceInputs}>
+                  <label>
+                    <span className={styles.priceCurrency}>$</span>
+                    <input
+                      aria-label="Minimum price"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="Minimum"
+                      value={minPrice}
+                      onChange={event => setMinPrice(event.target.value)}
+                    />
+                  </label>
+                  <span className={styles.priceSeparator}>to</span>
+                  <label>
+                    <span className={styles.priceCurrency}>$</span>
+                    <input
+                      aria-label="Maximum price"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="Maximum"
+                      value={maxPrice}
+                      onChange={event => setMaxPrice(event.target.value)}
+                    />
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+            {priceError && (
+              <p className={styles.priceError} role="alert">
+                Maximum price must be greater than or equal to minimum price.
+              </p>
+            )}
+          </section>
+        )}
         {catalog.loading ? (
           <ProductSkeletons />
         ) : catalog.error ? (
