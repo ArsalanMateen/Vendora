@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import Icon from '../components/Icon';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import LoadBoundary from '../components/LoadBoundary';
 import { list, metadata } from '../api/api-product';
@@ -37,6 +38,23 @@ export default function Home() {
     category,
     sort
   }, signal), JSON.stringify([query, category, sort]));
+  const categoryShortcuts = useMemo(() => {
+    const remaining = [...categories];
+    const representedShops = new Set();
+    const shortcuts = [];
+    const newShopCount = entry => [...entry.shopIds].filter(id => !representedShops.has(id)).length;
+
+    // Spread shortcuts across the catalog's shops rather than repeating its busiest product family.
+    while (remaining.length && shortcuts.length < 4) {
+      remaining.sort((a, b) => newShopCount(b) - newShopCount(a) || b.count - a.count || a.name.localeCompare(b.name));
+      const entry = remaining.shift();
+      shortcuts.push(entry);
+      entry.shopIds.forEach(id => representedShops.add(id));
+    }
+    const selected = categories.find(entry => entry.name === category);
+    if (selected && !shortcuts.includes(selected)) shortcuts.splice(3, 1, selected);
+    return shortcuts;
+  }, [categories, category]);
   return <div className="page-container">
     <div className={styles.pageHeading}>
       <h1 className="page-title">Discover products</h1>
@@ -46,12 +64,37 @@ export default function Home() {
         <input aria-label="Search products" value={draft} onChange={event => setDraft(event.target.value)} />
         <button type="submit">Search</button>
       </form>
-      <select className={styles.categorySelect} aria-label="Browse categories" value={category} onChange={event => changeCategory(event.target.value)}>
-        <option value="">All categories</option>
-        {categories.map(item => <option key={item.name} value={item.name}>
-          {item.name}
-        </option>)}
-      </select>
+      <div className={styles.categoryBar}>
+          
+        <div className={styles.categoryChips}>
+            
+          <button className={`${styles.categoryChip} ${!category ? styles.selectedChip : ''}`} onClick={() => changeCategory('')} aria-pressed={!category}>
+              
+            <Icon name="grid" size={14} />
+              All finds
+            </button>
+            
+          {categoryShortcuts.map(item => <button className={`${styles.categoryChip} ${category === item.name ? styles.selectedChip : ''}`} onClick={() => changeCategory(item.name)} key={item.name} aria-pressed={category === item.name}>
+                
+            {item.name}
+              
+          </button>)}
+          
+        </div>
+          
+        <select aria-label="Browse all categories" value={category} onChange={event => changeCategory(event.target.value)} className={styles.categorySelect}>
+            
+          <option value="">All categories</option>
+            
+          {[...categories].sort((a, b) => a.name.localeCompare(b.name)).map(item => <option key={item.name} value={item.name}>
+                  
+            {item.name}
+                
+          </option>)}
+          
+        </select>
+        
+      </div>
       <label className={styles.sortLabel}>Sort products<select aria-label="Sort products" value={sort} onChange={event => setSort(event.target.value)}>
           <option value="newest">Newest arrivals</option>
           <option value="price-low">Lowest price</option>
