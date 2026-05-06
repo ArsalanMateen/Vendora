@@ -38,6 +38,28 @@
 .card:hover .image {
   transform: scale(1.045);
 }
+
+.saveButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 29px;
+  height: 29px;
+  border: 1px solid #ffffffb3;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+.saveButton:hover,
+.saved {
+  color: var(--accent-hover);
+  background: var(--accent-soft);
+}
 .soldOut {
   position: absolute;
   bottom: 14px;
