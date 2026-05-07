@@ -2,9 +2,9 @@ import { useCommerce, useSaved } from '../../state/CommerceProvider';
 import BackLink from '../../components/BackLink';
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { read } from '../../api/api-product';
+import { read, listRelated } from '../../api/api-product';
 import cart from '../../cart/cart-helper';
-
+import Suggestions from '../../components/Suggestions';
 import { ProductImage, formatPrice } from '../../components/ProductCard';
 import { toggleSavedProduct } from '../../components/saved-products';
 import Icon from '../../components/Icon';
@@ -14,7 +14,7 @@ export default function Product() {
   const { productId } = useParams();
 
   const [product, setProduct] = useState(null);
-  
+  const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [notFound, setNotFound] = useState(false);
@@ -32,7 +32,7 @@ export default function Product() {
     setError('');
     setNotFound(false);
     setProduct(null);
-
+    setRelated([]);
     read({ productId }, controller.signal).then(data => {
       if (controller.signal.aborted) return;
       if (data?._id) setProduct(data);
@@ -40,7 +40,9 @@ export default function Product() {
       setNotFound(Boolean(data?.notFound));
       setLoading(false);
     });
-
+    listRelated({ productId }, controller.signal).then(data => {
+      if (!controller.signal.aborted && Array.isArray(data)) setRelated(data);
+    });
 
     return () => controller.abort();
   }, [productId, revision]);
@@ -155,7 +157,7 @@ export default function Product() {
               </div>
             </div>
           </div>
-          
+          <Suggestions products={related} title="More finds, same good taste" />
         </>
       )}
     </div>
