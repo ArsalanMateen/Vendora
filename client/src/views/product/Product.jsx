@@ -1,12 +1,12 @@
-
+import { useCommerce, useSaved } from '../../state/CommerceProvider';
 import BackLink from '../../components/BackLink';
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { read } from '../../api/api-product';
-
+import cart from '../../cart/cart-helper';
 
 import { ProductImage, formatPrice } from '../../components/ProductCard';
-
+import { toggleSavedProduct } from '../../components/saved-products';
 import Icon from '../../components/Icon';
 import styles from './Product.module.css';
 
@@ -18,16 +18,16 @@ export default function Product() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [notFound, setNotFound] = useState(false);
-  
+  const [added, setAdded] = useState(false);
 
-  
-
+  const saved = useSaved(productId);
+  const { cart: cartIntent } = useCommerce();
 
   const [revision, setRevision] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
-
+    setAdded(false);
     setLoading(true);
     setError('');
     setNotFound(false);
@@ -45,7 +45,15 @@ export default function Product() {
     return () => controller.abort();
   }, [productId, revision]);
 
-  
+  const handleAdd = () => {
+    if (!product || product.quantity <= 0) return;
+    const existing = cartIntent.find(item => item.productId === product._id);
+    if (existing && existing.quantity >= product.quantity) {
+      setError('All available stock is already in your shopping bag.');
+      return;
+    }
+    cart.addItem(product, () => setAdded(true));
+  };
 
   return (
     <div className={styles.container}>
@@ -107,7 +115,43 @@ export default function Product() {
                     <p className={styles.detailDesc}>{product.description}</p>
                   </section>
                 )}
-                
+                <div className={styles.purchaseActions}>
+                  {error && (
+                    <p className={styles.errorAlert} role="alert">
+                      {error}
+                    </p>
+                  )}
+                  {added && (
+                    <p className={styles.addedNotice} role="status">
+                      <Icon name="check" size={16} />
+                      Added to bag
+                    </p>
+                  )}
+                  <div className={styles.actionsBox}>
+                    {added ? (
+                      <Link to="/cart" className={styles.btnGoToCart}>
+                        View bag
+                      </Link>
+                    ) : (
+                      <button
+                        disabled={product.quantity <= 0}
+                        className={styles.btnAddToCart}
+                        onClick={handleAdd}
+                      >
+                        {product.quantity > 0 ? 'Add to bag' : 'Sold out'}
+                      </button>
+                    )}
+                    <button
+                      className={`${styles.btnSave} ${saved ? styles.saved : ''}`}
+                      onClick={() => toggleSavedProduct(product)}
+                      aria-label={`${saved ? 'Unsave' : 'Save'} ${product.name}`}
+                      aria-pressed={saved}
+                    >
+                      <Icon name="heart" size={18} fill={saved ? 'currentColor' : 'none'} />
+                      {saved ? 'Saved' : 'Save'}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
