@@ -1,3 +1,20 @@
+import { batch } from './product-batch.js';
+
+const create = async (params, credentials, product) => {
+  try {
+    let response = await fetch('/api/products/by/' + params.shopId, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + credentials.t,
+      },
+      body: product,
+    });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const read = async (params, signal) => {
   try {
@@ -7,6 +24,38 @@ const read = async (params, signal) => {
     });
     const data = await response.json();
     return response.status === 404 ? { ...data, notFound: true } : data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const update = async (params, credentials, product) => {
+  try {
+    let response = await fetch('/api/product/' + params.shopId + '/' + params.productId, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + credentials.t,
+      },
+      body: product,
+    });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const remove = async (params, credentials) => {
+  try {
+    let response = await fetch('/api/product/' + params.shopId + '/' + params.productId, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + credentials.t,
+      },
+    });
+    return await response.json();
   } catch (err) {
     console.error(err);
   }
@@ -50,4 +99,15 @@ const listCategories = async signal =>
 
 const list = (params, signal) => getJSON('/api/products?' + queryString(params), signal);
 
-export { list, listByShop, metadata, listCategories, read, listRelated };
+export {
+  batch,
+  create,
+  read,
+  update,
+  remove,
+  listByShop,
+  listRelated,
+  listCategories,
+  metadata,
+  list,
+};
