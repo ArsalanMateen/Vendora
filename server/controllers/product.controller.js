@@ -1,11 +1,11 @@
-
+import { productIds } from '../helpers/batchProducts.js';
 import Product from '../models/product.model.js';
 import { productPage, productQuery, CARD_FIELDS } from '../helpers/productPagination.js';
 import pkg from 'lodash';
+const { extend } = pkg;
 import errorHandler from '../helpers/dbErrorHandler.js';
 import formidable from 'formidable';
 import { uploadProductImage, deleteImage } from '../helpers/r2.js';
-const { extend } = pkg;
 
 const create = (req, res) => {
   let form = new formidable.IncomingForm();
@@ -188,4 +188,33 @@ const list = async (req, res) => {
   }
 };
 
-export default { list, listByShop, productByID, read, listCategories, listRelated, listLatest, create, update, remove, photo, defaultPhoto };
+const batch = async (req, res) => {
+  try {
+    const ids = productIds(req.body?.ids);
+    if (!ids.length) return res.json({ products: [] });
+    const products = await Product.find({ _id: { $in: ids } })
+      .select(CARD_FIELDS)
+      .populate('shop', '_id name')
+      .lean();
+    const found = new Map(products.map(product => [String(product._id), product]));
+    res.json({ products: ids.map(id => found.get(id)).filter(Boolean) });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export default {
+  batch,
+  create,
+  productByID,
+  photo,
+  defaultPhoto,
+  read,
+  update,
+  remove,
+  listByShop,
+  listLatest,
+  listRelated,
+  listCategories,
+  list,
+};
