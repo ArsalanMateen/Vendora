@@ -38,6 +38,28 @@
 .card:hover .image {
   transform: scale(1.045);
 }
+
+.saveButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 29px;
+  height: 29px;
+  border: 1px solid #ffffffb3;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+.saveButton:hover,
+.saved {
+  color: var(--accent-hover);
+  background: var(--accent-soft);
+}
 .soldOut {
   position: absolute;
   bottom: 14px;
@@ -87,6 +109,20 @@
   font-size: 16px;
   font-weight: 650;
   letter-spacing: -0.4px;
+}
+.imageFallback {
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  gap: 12px;
+}
+.imageFallback span {
+  font-size: 12px;
 }
 .skeleton {
   border: 1px solid var(--border);

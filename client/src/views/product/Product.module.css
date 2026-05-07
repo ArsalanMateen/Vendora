@@ -1,0 +1,222 @@
+.container {
+  max-width: 1352px;
+  margin: 0 auto;
+  padding: 34px 36px;
+}
+.detailCard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 30px;
+}
+.detailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 43px;
+  align-items: start;
+}
+.productImageWrap {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.detailImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  padding: 35px;
+}
+.productInfo {
+  padding: 4px 0;
+  min-width: 0;
+}
+.detailTitle {
+  font-size: 30px;
+  font-weight: 650;
+  line-height: 1.35;
+  margin: 0 0 22px;
+}
+.shopAttribution {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.shopAttribution > svg {
+  margin-left: auto;
+  color: var(--muted);
+}
+.shopAvatar {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.shopAttribution small {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+.shopAttribution strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 550;
+  margin-top: 3px;
+}
+.priceTag {
+  font-family: 'Manrope', sans-serif;
+  font-size: 34px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+.inStock,
+.outOfStock {
+  font-size: 14px;
+  font-weight: 500;
+  color: #466342;
+  text-align: right;
+}
+.outOfStock {
+  color: #b87452;
+}
+.descriptionBlock h2 {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.detailDesc {
+  font-size: 15px;
+  color: #525252;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.actionsBox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: stretch;
+}
+.btnAddToCart,
+.btnGoToCart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  min-height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.btnAddToCart:hover:not(:disabled),
+.btnGoToCart:hover {
+  background: var(--ink-strong);
+}
+.btnAddToCart:disabled {
+  opacity: 0.45;
+}
+.btnSave {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--ink);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  min-height: 48px;
+  font-size: 15px;
+  font-weight: 500;
+}
+.btnSave.saved {
+  color: var(--accent-hover);
+  background: var(--accent-soft);
+  border-color: #f1d9c6;
+}
+.addedNotice {
+  font-size: 14px;
+  color: #466342;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+.detailSkeleton {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 30px;
+  gap: 40px;
+  min-height: 400px;
+}
+.detailSkeleton > div:first-child {
+  border-radius: 12px;
+  background: #f3f3f3;
+  aspect-ratio: 1;
+}
+.detailSkeleton span {
+  display: block;
+  background: #f3f3f3;
+  height: 30px;
+  width: 80%;
+  margin-top: 30px;
+  border-radius: 7px;
+}
+.detailSkeleton span:last-child {
+  height: 100px;
+}
+.errorAlert {
+  font-size: 14px;
+  background: #fff1ea;
+  color: #b06a48;
+  padding: 12px;
+  border: 1px solid #f3ddcd;
+  border-radius: 7px;
+  margin-bottom: 15px;
+}
+
+.purchaseSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  margin-top: 24px;
+  margin-bottom: 28px;
+}
+.descriptionBlock {
+  margin-bottom: 26px;
+}
+.purchaseActions {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+.btnSave:hover {
+  background: #f7f7f7;
+}
+.btnAddToCart:focus-visible,
+.btnGoToCart:focus-visible,
+.btnSave:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
