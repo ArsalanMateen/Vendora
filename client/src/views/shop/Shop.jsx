@@ -19,12 +19,12 @@ export default function Shop() {
   const [shopCount, setShopCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+  const [category, setCategory] = useState('');
   const [revision, setRevision] = useState(0);
 
   const catalog = useCursorList(
-    (cursor, signal) => listByShop({ shopId, cursor }, signal),
-    JSON.stringify([shopId, revision])
+    (cursor, signal) => listByShop({ shopId, category, cursor }, signal),
+    JSON.stringify([shopId, category, revision])
   );
 
   const products = catalog.data;
@@ -34,7 +34,7 @@ export default function Shop() {
     setLoading(true);
     setError('');
     setShop(null);
-
+    setCategory('');
     Promise.all([read({ shopId }, controller.signal), metadata({ shopId }, controller.signal)])
       .then(([shopData, productData]) => {
         if (controller.signal.aborted) return;
@@ -89,7 +89,19 @@ export default function Shop() {
             <h2 className={styles.sectionHeading}>
               The collection<span>{catalog.totalCount.toLocaleString()} finds</span>
             </h2>
-            
+            <div className={styles.storefrontControls}>
+              <select
+                className={styles.select}
+                aria-label="Filter shop category"
+                value={category}
+                onChange={event => setCategory(event.target.value)}
+              >
+                <option value="">All categories</option>
+                {categories.map(value => (
+                  <option key={value}>{value}</option>
+                ))}
+              </select>
+            </div>
           </div>
           {catalog.loading ? (
             <ProductSkeletons />
@@ -103,7 +115,9 @@ export default function Shop() {
               <Icon name="box" size={32} />
               <h3>{shopCount ? 'No matching finds' : 'No products listed yet.'}</h3>
               <p>{shopCount ? 'Try a different category.' : ''}</p>
-
+              {shopCount > 0 && (
+                <button onClick={() => setCategory('')}>Show the collection</button>
+              )}
             </div>
           ) : (
             <>
