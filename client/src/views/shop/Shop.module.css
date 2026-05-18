@@ -21,6 +21,25 @@
   color: var(--muted);
   margin-top: 9px;
 }
+.btnCreate,
+.btnSubmit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--ink);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.btnCreate:hover,
+.btnSubmit:hover {
+  background: var(--ink-strong);
+}
 .shopGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -91,6 +110,34 @@
     opacity: 0.4;
   }
 }
+.formContainer {
+  max-width: 650px;
+  margin: 38px auto;
+  padding: 0 25px;
+}
+.formCard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: 0 8px 28px #00000005;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+  margin-top: 27px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.label {
+  font-size: 14px;
+  font-weight: 550;
+  color: var(--muted);
+}
 .input,
 .textarea,
 .select {
@@ -108,6 +155,23 @@
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.formActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 9px;
+}
+.btnCancel {
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+.editLayout .formCard {
+  padding: 26px;
 }
 .editLayout .title {
   font-size: 24px;
@@ -180,6 +244,14 @@
   font-size: 12px;
   width: 130px;
   padding: 9px;
+}
+.errorAlert {
+  background: #fff2ed;
+  color: #ad5737;
+  border: 1px solid #f2d8cc;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 14px;
 }
 .storefrontWithoutLogo .storefrontInfo {
   flex-basis: 100%;
