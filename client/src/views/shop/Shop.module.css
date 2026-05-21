@@ -212,6 +212,12 @@
   font-size: 14px;
   text-align: center;
 }
+.editLayout {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
 .editLayout .formCard {
   padding: 26px;
 }
