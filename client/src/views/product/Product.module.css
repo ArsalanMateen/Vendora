@@ -193,6 +193,89 @@
   border-radius: 7px;
   margin-bottom: 15px;
 }
+.formContainer {
+  max-width: 650px;
+  margin: 38px auto;
+  padding: 0 25px;
+}
+.formCard {
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: white;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+  margin-top: 27px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rowTwo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+}
+.label {
+  font-size: 14px;
+  font-weight: 550;
+  color: var(--muted);
+}
+.input,
+.textarea,
+.select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 13px;
+  color: var(--ink);
+  font-size: 14px;
+  background: white;
+}
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+.formActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 9px;
+}
+.btnSubmit,
+.btnCancel {
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--muted);
+  font-size: 14px;
+}
+.btnSubmit {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: white;
+}
+.title {
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+.subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 9px;
+}
 
 .purchaseSummary {
   display: flex;
