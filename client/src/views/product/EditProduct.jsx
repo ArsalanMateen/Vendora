@@ -1,4 +1,4 @@
-
+import { ProductImage } from '../../components/ProductCard';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import auth from '../../auth/auth-helper';
@@ -15,6 +15,8 @@ export default function EditProduct() {
   const [values, setValues] = useState({
     name: '',
     description: '',
+    image: '',
+    imagePreview: '',
     category: '',
     quantity: '',
     price: '',
@@ -33,6 +35,7 @@ export default function EditProduct() {
           category: data.category || '',
           quantity: data.quantity,
           price: data.price,
+          imageUrl: data.image || '',
           loading: false,
         }));
       } else if (data && data.error) {
@@ -43,13 +46,30 @@ export default function EditProduct() {
     return () => abortController.abort();
   }, [productId]);
 
-  const handleChange = name => event => setValues(previous => ({...previous, [name]: event.target.value, error: ''}));
+  const handleChange = name => e => {
+    const val = name === 'image' ? e.target.files[0] : e.target.value;
+    if (name === 'image' && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = event => {
+        setValues(prev => ({
+          ...prev,
+          image: val,
+          imagePreview: event.target.result,
+          error: '',
+        }));
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setValues({ ...values, [name]: val, error: '' });
+    }
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
     let productData = new FormData();
     values.name && productData.append('name', values.name);
     values.description && productData.append('description', values.description);
+    values.image && productData.append('image', values.image);
     values.category && productData.append('category', values.category);
     productData.append('quantity', values.quantity);
     productData.append('price', values.price);
@@ -76,7 +96,25 @@ export default function EditProduct() {
         {values.error && <div className={styles.errorAlert}>{values.error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
-          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Product Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleChange('image')}
+              className={styles.fileInput}
+            />
+            <div className={styles.previewWrap}>
+              <ProductImage
+                product={{
+                  _id: productId,
+                  name: values.name,
+                  image: values.imagePreview || values.imageUrl,
+                }}
+                className={styles.previewImg}
+              />
+            </div>
+          </div>
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Product Name</label>
