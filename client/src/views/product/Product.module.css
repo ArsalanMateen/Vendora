@@ -247,6 +247,14 @@
   min-height: 110px;
   resize: vertical;
 }
+.previewImg {
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: contain;
+  background: var(--surface-muted);
+  margin-top: 8px;
+}
 .formActions {
   display: flex;
   gap: 12px;
@@ -275,6 +283,23 @@
   font-size: 14px;
   color: var(--muted);
   margin-top: 9px;
+}
+.fileInput {
+  font-size: 14px;
+  border: 1px dashed var(--border);
+  background: #fff;
+  border-radius: 8px;
+  width: 100%;
+  padding: 16px;
+}
+.fileInput::file-selector-button {
+  font-size: 14px;
+  border: 1px solid var(--border);
+  padding: 7px 10px;
+  background: white;
+  border-radius: 5px;
+  color: var(--ink);
+  margin-right: 12px;
 }
 
 .purchaseSummary {

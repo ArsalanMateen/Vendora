@@ -1,4 +1,4 @@
-
+import { ProductImage } from '../../components/ProductCard';
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import auth from '../../auth/auth-helper';
@@ -15,6 +15,8 @@ export default function NewProduct() {
   const [values, setValues] = useState({
     name: '',
     description: '',
+    image: '',
+    imagePreview: '',
     category: '',
     quantity: '',
     price: '',
@@ -22,7 +24,23 @@ export default function NewProduct() {
     loading: false,
   });
 
-  const handleChange = name => event => setValues(previous => ({...previous, [name]: event.target.value, error: ''}));
+  const handleChange = name => e => {
+    const val = name === 'image' ? e.target.files[0] : e.target.value;
+    if (name === 'image' && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = event => {
+        setValues(prev => ({
+          ...prev,
+          image: val,
+          imagePreview: event.target.result,
+          error: '',
+        }));
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setValues({ ...values, [name]: val, error: '' });
+    }
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -31,6 +49,7 @@ export default function NewProduct() {
     let productData = new FormData();
     values.name && productData.append('name', values.name);
     values.description && productData.append('description', values.description);
+    values.image && productData.append('image', values.image);
     values.category && productData.append('category', values.category);
     values.quantity && productData.append('quantity', values.quantity);
     values.price && productData.append('price', values.price);
@@ -56,7 +75,25 @@ export default function NewProduct() {
         {values.error && <div className={styles.errorAlert}>{values.error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
-          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Product Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleChange('image')}
+              className={styles.fileInput}
+            />
+            {values.imagePreview && (
+              <ProductImage
+                product={{
+                  _id: 'new-product-preview',
+                  name: values.name,
+                  image: values.imagePreview,
+                }}
+                className={styles.previewImg}
+              />
+            )}
+          </div>
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Product Name</label>
