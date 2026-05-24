@@ -320,6 +320,9 @@
   padding: 13px;
   font-size: 14px;
 }
+.inventorySection {
+  min-width: 0;
+}
 .emptyText {
   font-size: 14px;
   color: var(--muted);
