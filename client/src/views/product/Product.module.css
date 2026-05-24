@@ -274,6 +274,13 @@
   background: var(--ink);
   color: white;
 }
+.loading,
+.emptyInventory {
+  text-align: center;
+  padding: 65px 20px;
+  font-size: 14px;
+  color: var(--muted);
+}
 .title {
   font-size: 26px;
   line-height: 1.3;
