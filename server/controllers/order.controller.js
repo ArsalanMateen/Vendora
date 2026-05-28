@@ -23,4 +23,26 @@ const create = async (req, res) => {
   }
 };
 
-export default { create };
+const orderByID = async (req, res, next, id) => {
+  try {
+    let order = await Order.findById(id)
+      .select('_id products customer_name delivery_address created user')
+      .lean()
+      .populate('products.product', '_id name price image')
+      .populate('products.shop', '_id name')
+      .exec();
+    if (!order) {
+      return res.status(400).json({ error: 'Order not found' });
+    }
+    req.order = order;
+    next();
+  } catch (err) {
+    return res.status(400).json({ error: 'Could not retrieve order' });
+  }
+};
+
+const read = (req, res) => {
+  return res.json(req.order);
+};
+
+export default { create, orderByID, read };

@@ -18,8 +18,12 @@ router
   .route('/api/order/new/:userId')
   .post(authCtrl.requireSignin, authCtrl.hasAuthorization, orderCtrl.create);
 
+router.route('/api/order/:orderId').get(orderCtrl.read);
+
 router.param('userId', userCtrl.userByID);
 
 router.param('shopId', shopCtrl.shopByID);
+
+router.param('orderId', orderCtrl.orderByID);
 
 export default router;
