@@ -3,6 +3,28 @@
   margin: 0 auto;
   padding: 34px 36px;
 }
+.cartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.cartTitle {
+  font-size: 29px;
+  font-weight: 750;
+}
+.cartSubtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 9px;
+}
+.cartLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 23px;
+  align-items: start;
+}
 .cartItemsCard,
 .checkoutCard {
   background: white;
@@ -115,11 +137,168 @@
 .btnRemove:hover {
   color: var(--accent-hover);
 }
+.orderSummaryTitle {
+  padding-bottom: 19px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 13px;
+}
+.totalRow {
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.5px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  margin-top: 19px;
+  padding-top: 18px;
+}
+.totalRow span:first-child {
+  font-size: 16px;
+  padding-top: 4px;
+}
+.checkoutTrust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 22px;
+}
+.shippingHeading {
+  font-size: 14px;
+  font-weight: 600;
+  border-top: 1px solid var(--border);
+  padding-top: 21px;
+  margin-top: 20px;
+  margin-bottom: 3px;
+}
+.checkoutForm {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rowTwo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+.label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 550;
+}
+.input {
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: white;
+  font-size: 14px;
+  color: var(--ink);
+}
+.input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.btnPlaceOrder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 12px;
+  min-height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--ink);
+  color: white;
+  margin-top: 13px;
+}
+.btnPlaceOrder:hover:not(:disabled) {
+  background: var(--ink-strong);
+}
+.btnPlaceOrder:disabled {
+  opacity: 0.4;
+}
+.cardElementBox {
+  border: 1px solid var(--border);
+  padding: 14px 10px;
+  border-radius: 7px;
+  background: white;
+}
+.cardElementBox:focus-within {
+  border-color: var(--accent);
+}
+.errorAlert {
+  background: #fff0e9;
+  border: 1px solid #f2d7c7;
+  border-radius: 8px;
+  color: #b3714c;
+  padding: 13px 15px;
+  font-size: 14px;
+  margin-top: 15px;
+}
+.errorAlert > button {
+  border: none;
+  background: transparent;
+  color: var(--accent-hover);
+  font-weight: 550;
+  display: block;
+  font-size: 12px;
+  margin-top: 10px;
+}
+.syncNotice {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 13px;
+}
+.signinPrompt {
+  padding-top: 28px;
+  margin-top: 25px;
+  border-top: 1px solid var(--border);
+}
+.signinPrompt > svg {
+  color: var(--muted);
+}
+.signinPrompt h3 {
+  font-size: 17px;
+  margin-top: 10px;
+}
+.signinPrompt p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-top: 10px;
+}
+.signinPrompt .btnPlaceOrder {
+  margin-top: 20px;
+}
 .unavailable {
   display: block;
   font-size: 12px;
   color: #b68056;
   margin-top: 5px;
+}
+.leftCol,
+.rightCol {
+  min-width: 0;
 }
 
 .qtyStepper {
@@ -165,4 +344,7 @@
 .qtyInput::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.signinPrompt .testCardGuide {
+  margin-top: 18px;
 }
