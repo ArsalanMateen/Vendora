@@ -22,6 +22,46 @@
   font-weight: 650;
   line-height: 1.35;
 }
+.infoSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 28px 0 30px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.infoSection dt {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 7px;
+}
+.infoSection dd {
+  font-size: 16px;
+  font-weight: 550;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.orderTime {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.shippingBlock {
+  grid-column: 1 / -1;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.shippingBlock address {
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.7;
+}
 .itemsHeading {
   font-size: 19px;
   margin-bottom: 18px;
@@ -106,6 +146,23 @@
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   font-weight: 550;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.btnContinue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: white;
+  font-size: 14px;
+}
+.btnContinue:hover {
+  background: var(--ink-strong);
 }
 .loading {
   text-align: center;
