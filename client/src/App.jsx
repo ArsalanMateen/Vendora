@@ -14,6 +14,8 @@ import MyShops from './views/shop/MyShops';
 import EditShop from './views/shop/EditShop';
 import NewProduct from './views/product/NewProduct';
 import EditProduct from './views/product/EditProduct';
+import Cart from './cart/Cart';
+import OrderReceipt from './views/order/OrderReceipt';
 export default function App() { return (<CommerceProvider><BrowserRouter><main className="app-content" id="main-content"><Routes><Route path="/signup" element={<Signup />} />
 <Route path="/signin" element={<Signin />} />
 <Route path="/" element={<Home />} />
@@ -25,4 +27,6 @@ export default function App() { return (<CommerceProvider><BrowserRouter><main c
 <Route path="/seller/shops" element={<PrivateRoute sellerOnly={true}><MyShops /></PrivateRoute>} />
 <Route path="/seller/shop/edit/:shopId" element={<PrivateRoute sellerOnly={true}><EditShop /></PrivateRoute>} />
 <Route path="/seller/:shopId/products/new" element={<PrivateRoute sellerOnly={true}><NewProduct /></PrivateRoute>} />
-<Route path="/seller/:shopId/:productId/edit" element={<PrivateRoute sellerOnly={true}><EditProduct /></PrivateRoute>} /><Route path="*" element={<p>Page not found</p>} /></Routes></main></BrowserRouter></CommerceProvider>); }
+<Route path="/seller/:shopId/:productId/edit" element={<PrivateRoute sellerOnly={true}><EditProduct /></PrivateRoute>} />
+<Route path="/cart" element={<Cart />} />
+<Route path="/order/:orderId" element={<PrivateRoute><OrderReceipt /></PrivateRoute>} /><Route path="*" element={<p>Page not found</p>} /></Routes></main></BrowserRouter></CommerceProvider>); }
