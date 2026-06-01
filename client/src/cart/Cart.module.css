@@ -345,6 +345,52 @@
   -webkit-appearance: none;
   margin: 0;
 }
+
+.testCardGuide {
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #fafafa;
+}
+.testCardGuide p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+}
+.testCardDetails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 12px;
+  margin: 14px 0 0;
+}
+.testCardDetails dt {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.testCardDetails dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.testCardDetails dd code {
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.testCardNumber {
+  grid-column: 1 / -1;
+}
+.testCardCvc {
+  text-align: right;
+}
+.testCardNumber code {
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 .signinPrompt .testCardGuide {
   margin-top: 18px;
 }

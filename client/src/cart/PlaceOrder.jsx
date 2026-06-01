@@ -8,7 +8,42 @@ import config from '../config/config';
 import Icon from '../components/Icon';
 import styles from './Cart.module.css';
 
+function TestCardGuide() {
+  const [exampleCvc] = useState(() => {
+    const value = 100 + Math.floor(Math.random() * 899);
 
+    return String(value >= 123 ? value + 1 : value);
+  });
+
+  if (!config.stripe_publishable_key?.startsWith('pk_test_')) return null;
+  const exampleExpiry = `12/${String((new Date().getFullYear() + 3) % 100).padStart(2, '0')}`;
+
+  return (
+    <aside className={styles.testCardGuide} aria-label="Test payment details">
+      <p>Try checkout with these test details.</p>
+      <dl className={styles.testCardDetails}>
+        <div className={styles.testCardNumber}>
+          <dt>Card number</dt>
+          <dd>
+            <code>4242 4242 4242 4242</code>
+          </dd>
+        </div>
+        <div>
+          <dt>Expiry</dt>
+          <dd>
+            <code>{exampleExpiry}</code>
+          </dd>
+        </div>
+        <div className={styles.testCardCvc}>
+          <dt>CVC</dt>
+          <dd>
+            <code>{exampleCvc}</code>
+          </dd>
+        </div>
+      </dl>
+    </aside>
+  );
+}
 
 export default function PlaceOrder({ cartItems }) {
   const navigate = useNavigate();
@@ -78,7 +113,7 @@ export default function PlaceOrder({ cartItems }) {
         <Icon name="user" size={23} />
         <h3>Make these finds yours.</h3>
         <p>Sign in to complete your order and keep track of your purchases.</p>
-        
+        <TestCardGuide />
         <Link to="/signin" state={{ from: { pathname: '/cart' } }} className={styles.btnPlaceOrder}>
           Sign in to checkout
         </Link>
@@ -123,7 +158,7 @@ export default function PlaceOrder({ cartItems }) {
         {field('country', 'Country', 'country-name')}
       </div>
       <h3 className={styles.shippingHeading}>Payment details</h3>
-      
+      <TestCardGuide />
       <div className={styles.formGroup}>
         <label className={styles.label}>Credit or debit card</label>
         <div className={styles.cardElementBox}>
