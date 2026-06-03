@@ -153,6 +153,39 @@
   color: var(--ink);
   font-weight: 600;
 }
+.statusSelectWrap {
+  min-width: 0;
+}
+.statusLabel {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.statusSelect {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-size: 14px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: white;
+}
+.statusSelect:disabled {
+  opacity: 0.65;
+}
+.statusMessage,
+.statusError {
+  font-size: 13px;
+  margin-top: 6px;
+}
+.statusMessage {
+  color: var(--muted);
+}
+.statusError {
+  color: #a84330;
+}
 .emptyCard {
   text-align: center;
   padding: 60px 24px;

@@ -3,7 +3,7 @@ import LoadBoundary from '../../components/LoadBoundary';
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import auth from '../../auth/auth-helper';
-import { listByShop, getStatusValues } from '../../api/api-order';
+import { listByShop, getStatusValues, update } from '../../api/api-order';
 import { read as readShop } from '../../api/api-shop';
 import { ProductImage, formatPrice } from '../../components/ProductCard';
 import BackLink from '../../components/BackLink';
@@ -28,8 +28,8 @@ export default function ShopOrders() {
   const [statusValues, setStatusValues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
-  
+  const [statusErrors, setStatusErrors] = useState({});
+  const [pending, setPending] = useState({});
 
   useEffect(() => {
     const controller = new AbortController();
@@ -47,7 +47,32 @@ export default function ShopOrders() {
     return () => controller.abort();
   }, [shopId]);
 
-  
+  const handleStatusChange = async (orderId, itemIndex, status) => {
+    const itemId = `${orderId}-${itemIndex}`;
+    setPending(previous => ({ ...previous, [itemId]: true }));
+    setStatusErrors(previous => ({ ...previous, [itemId]: '' }));
+    const data = await update({ shopId }, { t: authData.token }, { orderId, itemIndex, status });
+    if (data && !data.error) {
+      setOrders(previous =>
+        previous.map(order =>
+          order._id === orderId
+            ? {
+                ...order,
+                products: order.products.map((item, index) =>
+                  index === itemIndex ? { ...item, status } : item
+                ),
+              }
+            : order
+        )
+      );
+    } else {
+      setStatusErrors(previous => ({
+        ...previous,
+        [itemId]: data?.error || 'Couldn’t update the status. Try again.',
+      }));
+    }
+    setPending(previous => ({ ...previous, [itemId]: false }));
+  };
 
   return (
     <div className={styles.container}>
@@ -152,7 +177,44 @@ export default function ShopOrders() {
                           </strong>
                         </p>
                       </div>
-                      
+                      <div className={styles.statusSelectWrap}>
+                        <label htmlFor={`status-${item.rowKey}`} className={styles.statusLabel}>
+                          Order status
+                        </label>
+                        <select
+                          id={`status-${item.rowKey}`}
+                          value={item.status}
+                          disabled={pending[item.rowKey] || !statusValues.length}
+                          onChange={event =>
+                            handleStatusChange(order._id, item.itemIndex, event.target.value)
+                          }
+                          className={styles.statusSelect}
+                          aria-label={`Order status for ${item.product?.name || item._id}`}
+                          aria-describedby={
+                            statusErrors[item.rowKey] ? `status-error-${item.rowKey}` : undefined
+                          }
+                        >
+                          {statusValues.map(status => (
+                            <option key={status} value={status}>
+                              {status}
+                            </option>
+                          ))}
+                        </select>
+                        {pending[item.rowKey] && (
+                          <p className={styles.statusMessage} role="status">
+                            Updating…
+                          </p>
+                        )}
+                        {statusErrors[item.rowKey] && (
+                          <p
+                            id={`status-error-${item.rowKey}`}
+                            className={styles.statusError}
+                            role="alert"
+                          >
+                            {statusErrors[item.rowKey]}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
