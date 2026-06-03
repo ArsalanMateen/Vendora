@@ -18,6 +18,14 @@ router
   .route('/api/order/new/:userId')
   .post(authCtrl.requireSignin, authCtrl.hasAuthorization, orderCtrl.create);
 
+router
+  .route('/api/orders/shop/:shopId')
+  .get(authCtrl.requireSignin, shopCtrl.isOwner, orderCtrl.listByShop);
+
+router
+  .route('/api/orders/user/:userId')
+  .get(authCtrl.requireSignin, authCtrl.hasAuthorization, orderCtrl.listByUser);
+
 router.route('/api/order/:orderId').get(orderCtrl.read);
 
 router.param('userId', userCtrl.userByID);

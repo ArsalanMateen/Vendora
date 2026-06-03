@@ -16,6 +16,34 @@ const create = async (params, credentials, order, token) => {
   }
 };
 
+const listByShop = async (params, credentials, signal) => {
+  const query = new URLSearchParams(
+    Object.entries(params).filter(([key, value]) => key !== 'shopId' && value != null)
+  ).toString();
+  const response = await fetch('/api/orders/shop/' + params.shopId + '?' + query, {
+    signal,
+    headers: { Authorization: 'Bearer ' + credentials.t },
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Could not load orders');
+
+  return data;
+};
+
+const listByUser = async (params, credentials, signal) => {
+  const query = new URLSearchParams(
+    Object.entries(params).filter(([key, value]) => key !== 'userId' && value != null)
+  ).toString();
+  const response = await fetch('/api/orders/user/' + params.userId + '?' + query, {
+    signal,
+    headers: { Authorization: 'Bearer ' + credentials.t },
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Could not load orders');
+
+  return data;
+};
+
 const read = async (params, credentials, signal) => {
   try {
     let response = await fetch('/api/order/' + params.orderId, {
@@ -32,4 +60,4 @@ const read = async (params, credentials, signal) => {
   }
 };
 
-export { create, read };
+export { create, read, listByShop, listByUser };
