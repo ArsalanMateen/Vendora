@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import { placeOrder } from '../helpers/placeOrder.js';
-import { Order } from '../models/order.model.js';
+import { Order, CartItem } from '../models/order.model.js';
 import { listQuery, listResult } from '../helpers/listPagination.js';
 import Product from '../models/product.model.js';
-
+import errorHandler from '../helpers/dbErrorHandler.js';
 import Stripe from 'stripe';
 import config from '../config/config.js';
+
 const myStripe = new Stripe(config.stripe_test_secret_key);
 
 const create = async (req, res) => {
@@ -41,6 +42,38 @@ const listByShop = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+
+const update = async (req, res) => {
+  try {
+    const { orderId, itemIndex, cartItemId, status } = req.body;
+    const byIndex =
+      /^[a-f\d]{24}$/i.test(orderId || '') && Number.isInteger(itemIndex) && itemIndex >= 0;
+    const byItemId = /^[a-f\d]{24}$/i.test(cartItemId || '');
+    if ((!byIndex && !byItemId) || !CartItem.schema.path('status').enumValues.includes(status)) {
+      return res.status(400).json({ error: 'Please select a valid order item and status.' });
+    }
+    const filter = byIndex
+      ? { _id: orderId, [`products.${itemIndex}.shop`]: req.shop._id }
+      : { products: { $elemMatch: { _id: cartItemId, shop: req.shop._id } } };
+    const statusPath = byIndex ? `products.${itemIndex}.status` : 'products.$.status';
+    let order = await Order.updateOne(filter, {
+      $set: {
+        [statusPath]: status,
+      },
+    });
+    if (!(order.n || order.matchedCount))
+      return res.status(404).json({ error: 'This order item was not found in your shop.' });
+    res.json(order);
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+
+const getStatusValues = (req, res) => {
+  res.json(CartItem.schema.path('status').enumValues);
 };
 
 const orderByID = async (req, res, next, id) => {
@@ -85,4 +118,12 @@ const listByUser = async (req, res) => {
   }
 };
 
-export default { create, orderByID, read, listByShop, listByUser };
+export default {
+  create,
+  listByShop,
+  update,
+  getStatusValues,
+  orderByID,
+  read,
+  listByUser,
+};
