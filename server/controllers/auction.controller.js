@@ -3,8 +3,34 @@ import Auction from '../models/auction.model.js';
 import { auctionProjection } from '../helpers/auctionSummary.js';
 
 import errorHandler from '../helpers/dbErrorHandler.js';
+import formidable from 'formidable';
+import { uploadAuctionImage } from '../helpers/r2.js';
 
+const create = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status(400).json({
+        error: 'Image could not be uploaded',
+      });
+    }
+    let auction = new Auction(fields);
 
+    auction.seller = req.profile;
+    try {
+      if (files.image) {
+        auction.image = await uploadAuctionImage(files.image, auction._id);
+      }
+      let result = await auction.save();
+      res.status(200).json(result);
+    } catch (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err),
+      });
+    }
+  });
+};
 
 const auctionByID = async (req, res, next, id) => {
   try {
@@ -129,4 +155,4 @@ const isSeller = (req, res, next) => {
   next();
 };
 
-export default { auctionByID, read, listOpen, counts, listBySeller, listByBidder, isSeller };
+export default { auctionByID, read, listOpen, counts, listBySeller, listByBidder, isSeller, create };
