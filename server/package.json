@@ -24,6 +24,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.9.7",
+    "socket.io": "^4.8.3",
     "stripe": "^22.6.2"
   },
   "devDependencies": {
