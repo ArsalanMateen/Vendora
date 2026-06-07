@@ -4,6 +4,75 @@
   padding: 34px 36px;
 }
 
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 29px;
+  font-weight: 750;
+  color: var(--ink);
+  margin: 0;
+}
+
+.auctionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 2.5rem;
+}
+
+.imageBox {
+  width: 100%;
+  height: 320px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sectionHeading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink-strong);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.sellerText {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
 .timerBox {
   background: var(--surface-muted);
   border: 1px solid var(--border);
@@ -23,6 +92,13 @@
   color: var(--muted);
   font-weight: 400;
   margin-left: 0.5rem;
+}
+
+.noBids {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 /* Catalog / List view */
@@ -82,6 +158,16 @@
 }
 
 /* Form views */
+
+.errorAlert {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
 
 /* Dialog Modal */
 .auctionTile {
@@ -198,6 +284,38 @@
 .auctionTile .btnView:hover {
   background: var(--ink-strong);
 }
+.card {
+  border-radius: 15px;
+  box-shadow: none;
+  padding: 30px;
+}
+.headerRow .title {
+  font-size: 27px;
+}
+.sellerText {
+  font-size: 14px;
+  margin-top: 9px;
+}
+.imageBox {
+  height: auto;
+  aspect-ratio: 1;
+  background: #fff;
+  border-color: var(--border);
+  border-radius: 11px;
+}
+.image {
+  object-fit: contain;
+  padding: 24px;
+  mix-blend-mode: multiply;
+}
+.description {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+.sectionHeading {
+  font-size: 16px;
+}
 .timerBox {
   background: #fff;
   border-color: var(--border);
@@ -208,6 +326,9 @@
 }
 .timerEndNotice {
   font-size: 12px;
+}
+.noBids {
+  font-size: 14px;
 }
 
 .auctionTileMeta {
