@@ -102,9 +102,27 @@ export default function NewAuction() {
           />
         </div>
 
-        
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Auction Start Time</label>
+          <input
+            type="datetime-local"
+            value={values.bidStart}
+            onChange={handleChange('bidStart')}
+            required
+            className={styles.input}
+          />
+        </div>
 
-        
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Auction End Time</label>
+          <input
+            type="datetime-local"
+            value={values.bidEnd}
+            onChange={handleChange('bidEnd')}
+            required
+            className={styles.input}
+          />
+        </div>
 
         <button type="submit" disabled={values.loading} className={styles.btnSubmit}>
           {values.loading ? 'Creating Auction...' : 'Publish Auction'}
