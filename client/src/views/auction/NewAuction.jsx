@@ -55,6 +55,8 @@ export default function NewAuction() {
 
     let auctionData = new FormData();
     values.itemName && auctionData.append('itemName', values.itemName);
+    values.description && auctionData.append('description', values.description);
+    values.image && auctionData.append('image', values.image);
     values.startingBid && auctionData.append('startingBid', values.startingBid);
     values.bidStart && auctionData.append('bidStart', values.bidStart);
     values.bidEnd && auctionData.append('bidEnd', values.bidEnd);
@@ -86,9 +88,26 @@ export default function NewAuction() {
           />
         </div>
 
-        
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Description</label>
+          <textarea
+            rows="3"
+            value={values.description}
+            onChange={handleChange('description')}
+            className={styles.textarea}
+            placeholder="Item condition, specs, history..."
+          />
+        </div>
 
-        
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Item Photo</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleChange('image')}
+            className={styles.fileInput}
+          />
+        </div>
 
         <div className={styles.formGroup}>
           <label className={styles.label}>Starting Bid ($)</label>
