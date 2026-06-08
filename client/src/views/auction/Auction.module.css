@@ -94,6 +94,66 @@
   margin-left: 0.5rem;
 }
 
+.highestBidBanner {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 0.85rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.highestBidLabel {
+  font-size: 0.9rem;
+  color: var(--accent-hover);
+  font-weight: 500;
+}
+
+.highestBidAmount {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #312e81;
+}
+
+.bidsHistory {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bidsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.bidsTable th {
+  background: var(--surface-muted);
+  color: var(--muted);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.bidsTable td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-strong);
+}
+
+.bidsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.bidAmount {
+  font-weight: 700;
+  color: #047857;
+}
+
 .noBids {
   padding: 1.5rem;
   text-align: center;
@@ -316,6 +376,20 @@
 .sectionHeading {
   font-size: 16px;
 }
+.highestBidBanner {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.highestBidLabel {
+  font-size: 12px;
+  color: var(--muted);
+}
+.highestBidAmount {
+  font-family: 'Manrope', sans-serif;
+  font-size: 34px;
+  color: var(--muted);
+}
 .timerBox {
   background: #fff;
   border-color: var(--border);
@@ -327,7 +401,22 @@
 .timerEndNotice {
   font-size: 12px;
 }
+.bidsTable {
+  font-size: 14px;
+}
+.bidsTable th {
+  font-size: 12px;
+  color: var(--muted);
+}
 .noBids {
+  font-size: 14px;
+}
+.upcomingNotice {
+  padding: 17px;
+  border: 1px solid #e8d8c8;
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  border-radius: 8px;
   font-size: 14px;
 }
 
