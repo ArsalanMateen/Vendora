@@ -20,6 +20,7 @@ import ShopOrders from './views/shop/ShopOrders';
 import OpenAuctions from './views/auction/OpenAuctions';
 import Auction from './views/auction/Auction';
 import NewAuction from './views/auction/NewAuction';
+import MyAuctions from './views/auction/MyAuctions';
 export default function App() { return (<CommerceProvider><BrowserRouter><main className="app-content" id="main-content"><Routes><Route path="/signup" element={<Signup />} />
 <Route path="/signin" element={<Signin />} />
 <Route path="/" element={<Home />} />
@@ -37,4 +38,5 @@ export default function App() { return (<CommerceProvider><BrowserRouter><main c
 <Route path="/seller/orders/:shopId" element={<PrivateRoute sellerOnly={true}><ShopOrders /></PrivateRoute>} />
 <Route path="/auctions/all" element={<OpenAuctions />} />
 <Route path="/auction/:auctionId" element={<Auction />} />
-<Route path="/auction/new" element={<PrivateRoute sellerOnly={true}><NewAuction /></PrivateRoute>} /><Route path="*" element={<p>Page not found</p>} /></Routes></main></BrowserRouter></CommerceProvider>); }
+<Route path="/auction/new" element={<PrivateRoute sellerOnly={true}><NewAuction /></PrivateRoute>} />
+<Route path="/myauctions" element={<PrivateRoute sellerOnly={true}><MyAuctions /></PrivateRoute>} /><Route path="*" element={<p>Page not found</p>} /></Routes></main></BrowserRouter></CommerceProvider>); }

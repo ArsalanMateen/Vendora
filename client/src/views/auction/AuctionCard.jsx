@@ -1,10 +1,10 @@
-
+import IconAction from '../../components/IconAction';
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-
+import auth from '../../auth/auth-helper';
 import Icon from '../../components/Icon';
 import { ProductImage, formatPrice } from '../../components/ProductCard';
-
+import DeleteAuction from './DeleteAuction';
 import styles from './Auction.module.css';
 import AuctionCountdown from './AuctionCountdown';
 
@@ -16,7 +16,7 @@ const phase = auction =>
       : 'live';
 
 function AuctionCard({ auction, removeAuction, onBoundary }) {
-  
+  const account = auth.isAuthenticated();
 
   const [status, setStatus] = useState(() => phase(auction));
 
@@ -56,7 +56,7 @@ function AuctionCard({ auction, removeAuction, onBoundary }) {
     (auction.bids?.length
       ? Math.max(...auction.bids.map(item => Number(item.bid)))
       : auction.startingBid);
-  
+  const isOwner = account?.user?._id === auction.seller?._id;
 
   return (
     <article className={styles.auctionTile}>
@@ -120,7 +120,16 @@ function AuctionCard({ auction, removeAuction, onBoundary }) {
           <Link to={`/auction/${auction._id}`} className={`${styles.btnAction} ${styles.btnView}`}>
             {ended ? 'View results' : upcoming ? 'View auction' : 'Join the bidding'}
           </Link>
-
+          {isOwner && (
+            <>
+              <IconAction
+                to={`/auction/edit/${auction._id}`}
+                icon="edit"
+                label={'Edit ' + auction.itemName}
+              />
+              <DeleteAuction auction={auction} onRemove={removeAuction} />
+            </>
+          )}
         </div>
       </div>
     </article>
