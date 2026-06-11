@@ -1,0 +1,38 @@
+.sidebar {
+  width: var(--sidebar-width);
+  background: #fff;
+  border-right: 1px solid var(--border);
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 20px 0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  font-family: 'Manrope', sans-serif;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1.3px;
+}
+.navigation {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 120px;
+}
+.topbar {
+  margin-left: var(--sidebar-width);
+  height: 64px;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 28px;
+  padding: 0 36px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}

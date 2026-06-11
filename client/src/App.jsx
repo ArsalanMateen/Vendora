@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CommerceProvider from './state/CommerceProvider';
+import Navbar from './components/Navbar';
 import PrivateRoute from './auth/PrivateRoute';
 import Signup from './views/auth/Signup';
 import Signin from './views/auth/Signin';
@@ -25,7 +26,7 @@ import EditAuction from './views/auction/EditAuction';
 import Profile from './views/user/Profile';
 import EditProfile from './views/user/EditProfile';
 import StripeConnect from './views/user/StripeConnect';
-export default function App() { return (<CommerceProvider><BrowserRouter><main className="app-content" id="main-content"><Routes><Route path="/signup" element={<Signup />} />
+export default function App() { return (<CommerceProvider><BrowserRouter><Navbar /><main className="app-content" id="main-content"><Routes><Route path="/signup" element={<Signup />} />
 <Route path="/signin" element={<Signin />} />
 <Route path="/" element={<Home />} />
 <Route path="/product/:productId" element={<Product />} />

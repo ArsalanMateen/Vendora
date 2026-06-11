@@ -38,6 +38,14 @@ select,
 textarea {
   font: inherit;
 }
+.app-content textarea {
+  min-height: 110px;
+  max-height: 320px;
+  min-width: 0;
+  max-width: 100%;
+  resize: vertical;
+  overflow: auto;
+}
 button,
 a,
 input,
@@ -75,6 +83,60 @@ h2,
 h3 {
   font-family: 'Manrope', 'Inter', sans-serif;
   letter-spacing: -0.035em;
+}
+.app-content {
+  --ink: #292929;
+  --ink-strong: #424242;
+  --muted: #6b6b6b;
+  --surface-muted: #fff;
+  --border: #e9e9e9;
+  color: var(--ink);
+  background: #fff;
+  margin-left: var(--sidebar-width);
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+}
+.route-content {
+  flex: 1;
+  min-width: 0;
+}
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  padding: 22px 0;
+  margin: 24px 36px 0;
+}
+.app-footer > div {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.app-footer a:hover {
+  color: var(--ink);
+}
+.footer-brand {
+  font-weight: 700;
+  color: var(--ink-strong);
+  font-size: 14px;
+  letter-spacing: -0.5px;
+}
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -80px;
+  z-index: 200;
+  background: var(--ink);
+  color: white;
+  border-radius: 8px;
+  padding: 12px 20px;
+}
+.skip-link:focus {
+  top: 12px;
 }
 .page-kicker {
   font-size: 12px;
@@ -135,9 +197,4 @@ h3 {
   font-size: 29px;
   font-weight: 750;
   line-height: 1.3;
-}
-
-button,
-a[role='button'] {
-  white-space: nowrap;
 }
