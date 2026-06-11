@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import { auctionSummary } from '../helpers/auctionSummary.js';
 import Auction from '../models/auction.model.js';
-
+import { renewSampleAuction, sampleAuctionEvents } from '../helpers/sampleAuctionRenewal.js';
 
 export default httpServer => {
   const io = new Server(httpServer, {
@@ -11,7 +11,34 @@ export default httpServer => {
     },
   });
 
+  const announceRenewal = auction => {
+    io.emit('auction summary', auctionSummary(auction));
+    io.to(String(auction._id)).emit('auction renewed', auction);
+  };
+
+  sampleAuctionEvents.on('renewed', announceRenewal);
+  httpServer.once('close', () => sampleAuctionEvents.off('renewed', announceRenewal));
+
   io.on('connection', socket => {
+    socket.on('auction ended', async (data, acknowledge) => {
+      if (typeof acknowledge !== 'function') return;
+      if (
+        !/^[a-f\d]{24}$/i.test(data?.auctionId || '') ||
+        typeof data?.bidEnd !== 'string' ||
+        !Number.isFinite(Date.parse(data.bidEnd))
+      ) {
+        return acknowledge({ error: 'Invalid auction expiry notification' });
+      }
+      try {
+        const auction = await renewSampleAuction({
+          auctionId: data.auctionId,
+          expectedEnd: data.bidEnd,
+        });
+        acknowledge({ auction, serverTime: Date.now() });
+      } catch {
+        acknowledge({ error: 'Could not refresh auction' });
+      }
+    });
     socket.on('join auction room', data => {
       socket.join(data.room);
     });
@@ -35,7 +62,7 @@ export default httpServer => {
         !/^[a-f\d]{24}$/i.test(String(bidInfo?.bidder?._id || ''))
       )
         return { error: 'Please enter a valid bid.' };
-
+      await renewSampleAuction({ auctionId });
       const now = new Date();
       let result = await Auction.findOneAndUpdate(
         {

@@ -15,6 +15,8 @@ const AuctionSchema = new mongoose.Schema({
     default: '',
   },
   updated: Date,
+  // Set by the catalog importer only; user-created auctions are not samples.
+  seedBatch: String,
   created: {
     type: Date,
     default: Date.now,

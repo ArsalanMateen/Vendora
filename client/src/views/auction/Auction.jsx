@@ -1,5 +1,5 @@
 import BackLink from '../../components/BackLink';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { read } from '../../api/api-auction.js';
 
@@ -9,7 +9,7 @@ import { ProductImage, formatPrice } from '../../components/ProductCard';
 import Icon from '../../components/Icon';
 import styles from './Auction.module.css';
 import socket from './auction-socket';
-
+import useAuctionExpiry from './useAuctionExpiry';
 
 export default function Auction() {
   const { auctionId } = useParams();
@@ -18,9 +18,12 @@ export default function Auction() {
   const [error, setError] = useState('');
   const [justEnded, setJustEnded] = useState(false);
 
-  
+  const expiryAuctions = useMemo(() => (auction ? [auction] : []), [auction]);
 
-
+  useAuctionExpiry(expiryAuctions, data => {
+    setAuction(data);
+    setJustEnded(false);
+  });
 
   useEffect(() => {
     if (!auction) return;
