@@ -1,7 +1,6 @@
 import User from '../models/user.model.js';
 import errorHandler from '../helpers/dbErrorHandler.js';
 
-
 const create = async (req, res) => {
   const user = new User(req.body);
   try {
@@ -85,6 +84,11 @@ const remove = async (req, res) => {
   }
 };
 
+import Stripe from 'stripe';
+import config from '../config/config.js';
+
+const myStripe = new Stripe(config.stripe_test_secret_key);
+
 const isSeller = (req, res, next) => {
   const isSeller = req.profile && req.profile.seller;
   if (!isSeller) {
@@ -93,4 +97,60 @@ const isSeller = (req, res, next) => {
   next();
 };
 
-export default { create, userByID, read, list, update, remove, isSeller };
+const stripe_auth = async (req, res) => {
+  try {
+    const response = await myStripe.oauth.token({
+      grant_type: 'authorization_code',
+      code: req.query.code,
+    });
+    let user = req.profile;
+    user.stripe_seller = response;
+    await user.save();
+    user.hashed_password = undefined;
+    user.salt = undefined;
+    res.json({ _id: user._id, name: user.name, email: user.email, seller: user.seller });
+  } catch (err) {
+    return res.status(400).json({
+      error: 'Could not connect Stripe account: ' + (err.message || err),
+    });
+  }
+};
+
+const stripeCustomer = async (req, res, next) => {
+  try {
+    if (!req.body.token) {
+      return next();
+    }
+    if (req.profile.stripe_customer) {
+      const customer = await myStripe.customers.update(req.profile.stripe_customer, {
+        source: req.body.token,
+      });
+      req.customer = customer;
+      next();
+    } else {
+      const customer = await myStripe.customers.create({
+        email: req.profile.email,
+        source: req.body.token,
+      });
+      await User.findByIdAndUpdate(req.profile._id, { stripe_customer: customer.id });
+      req.customer = customer;
+      next();
+    }
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ error: 'Could not link Stripe customer: ' + (err.message || err) });
+  }
+};
+
+export default {
+  create,
+  userByID,
+  read,
+  list,
+  remove,
+  update,
+  isSeller,
+  stripe_auth,
+  stripeCustomer,
+};
