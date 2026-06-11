@@ -30,6 +30,10 @@
   margin-top: 5px;
   overflow-wrap: anywhere;
 }
+.metaInfo {
+  font-size: 14px;
+  color: var(--muted);
+}
 .btnEdit,
 .btnSave,
 .btnShops,
