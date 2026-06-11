@@ -162,6 +162,14 @@
   color: white;
   border-radius: 20px;
 }
+.menuButton,
+.mobileClose,
+.overlay {
+  display: none;
+}
+.menuButton {
+  margin-right: auto;
+}
 .accountDropdown {
   position: relative;
 }

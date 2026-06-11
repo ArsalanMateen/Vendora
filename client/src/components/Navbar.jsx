@@ -82,7 +82,38 @@ export default function Navbar() {
     items[next]?.focus();
   };
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    sidebarRef.current?.querySelector('a')?.focus();
 
+    const onKey = event => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        menuRef.current?.focus();
+      }
+      if (event.key === 'Tab') {
+        const items = sidebarRef.current?.querySelectorAll('a[href], button');
+        const first = items?.[0];
+        const last = items?.[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', onKey);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [menuOpen]);
 
   const accountPath = authData ? `/user/${authData.user._id}` : '/signin';
 
@@ -103,11 +134,20 @@ export default function Navbar() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      
+      {menuOpen && (
+        <button
+          className={styles.overlay}
+          aria-label="Close navigation"
+          onClick={() => {
+            setMenuOpen(false);
+            menuRef.current?.focus();
+          }}
+        />
+      )}
       <aside
         ref={sidebarRef}
-
-
+        inert={isMobile && !menuOpen ? '' : undefined}
+        aria-hidden={(isMobile && !menuOpen) || undefined}
         className={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ''}`}
         aria-label="Main navigation"
         role={menuOpen ? 'dialog' : undefined}
@@ -122,7 +162,16 @@ export default function Navbar() {
               endora<span className={styles.brandDot}>.</span>
             </span>
           </Link>
-          
+          <button
+            className={styles.mobileClose}
+            aria-label="Close navigation"
+            onClick={() => {
+              setMenuOpen(false);
+              menuRef.current?.focus();
+            }}
+          >
+            <Icon name="close" />
+          </button>
         </div>
         <nav className={styles.navigation}>
           <p className={styles.navLabel}>EXPLORE</p>
@@ -145,7 +194,18 @@ export default function Navbar() {
         </div>
       </aside>
       <header className={styles.topbar}>
-        
+        <button
+          ref={menuRef}
+          className={styles.menuButton}
+          onClick={() => {
+            setAccountOpen(false);
+            setMenuOpen(true);
+          }}
+          aria-label="Open navigation"
+          aria-expanded={menuOpen}
+        >
+          <Icon name="menu" />
+        </button>
         <div className={styles.topActions}>
           <Link
             to="/cart"
