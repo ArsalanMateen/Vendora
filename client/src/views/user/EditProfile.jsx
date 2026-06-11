@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import auth from '../../auth/auth-helper';
 import { read, update } from '../../api/api-user';
 import styles from './User.module.css';
-
+import Icon from '../../components/Icon';
 
 export default function EditProfile() {
   const { userId } = useParams();
@@ -14,7 +14,7 @@ export default function EditProfile() {
   const [values, setValues] = useState({
     name: '',
     email: '',
-
+    password: '',
     seller: false,
     error: '',
     loading: true,
@@ -57,7 +57,7 @@ export default function EditProfile() {
       email: values.email,
       seller: values.seller,
     };
-
+    if (values.password) user.password = values.password;
 
     const data = await update({ userId }, { t: authData.token }, user);
     if (!data || data.error) {
@@ -104,10 +104,40 @@ export default function EditProfile() {
             />
           </div>
 
-          
+          <div className={styles.formGroup}>
+            <label htmlFor="profile-password" className={styles.label}>
+              Password
+            </label>
+            <input
+              id="profile-password"
+              aria-describedby="profile-password-help"
+              autoComplete="new-password"
+              type="password"
+              value={values.password}
+              onChange={handleChange('password')}
+              className={styles.input}
+              placeholder="New password"
+            />
+            <p id="profile-password-help" className={styles.fieldHint}>
+              <Icon name="info" size={15} />
+              <span>Leave this field empty to keep your current password.</span>
+            </p>
+          </div>
 
           {/* Seller Toggle - Core Chapter 7 Feature */}
-          
+          <div className={styles.sellerToggleGroup}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={values.seller}
+                onChange={handleChange('seller')}
+                className={styles.checkbox}
+              />
+              <span>
+                <strong>Seller Account</strong>
+              </span>
+            </label>
+          </div>
 
           <div className={styles.formActions}>
             <button type="submit" className={styles.btnSave}>
