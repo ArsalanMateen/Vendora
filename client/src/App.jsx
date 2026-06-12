@@ -26,6 +26,7 @@ import EditAuction from './views/auction/EditAuction';
 import Profile from './views/user/Profile';
 import EditProfile from './views/user/EditProfile';
 import StripeConnect from './views/user/StripeConnect';
+import Guide from './views/Guide';
 export default function App() { return (<CommerceProvider><BrowserRouter><Navbar /><main className="app-content" id="main-content"><Routes><Route path="/signup" element={<Signup />} />
 <Route path="/signin" element={<Signin />} />
 <Route path="/" element={<Home />} />
@@ -48,4 +49,5 @@ export default function App() { return (<CommerceProvider><BrowserRouter><Navbar
 <Route path="/auction/edit/:auctionId" element={<PrivateRoute sellerOnly={true}><EditAuction /></PrivateRoute>} />
 <Route path="/user/:userId" element={<PrivateRoute><Profile /></PrivateRoute>} />
 <Route path="/user/edit/:userId" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
-<Route path="/seller/stripe/connect" element={<PrivateRoute><StripeConnect /></PrivateRoute>} /><Route path="*" element={<p>Page not found</p>} /></Routes></main></BrowserRouter></CommerceProvider>); }
+<Route path="/seller/stripe/connect" element={<PrivateRoute><StripeConnect /></PrivateRoute>} />
+<Route path="/guide" element={<Guide />} /><Route path="*" element={<p>Page not found</p>} /></Routes></main></BrowserRouter></CommerceProvider>); }
