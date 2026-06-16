@@ -359,6 +359,97 @@
   font-size: 14px;
   color: var(--muted);
 }
+@media (max-width: 1150px) {
+  .detailGrid {
+    gap: 28px;
+  }
+  .detailTitle {
+    font-size: 30px;
+    font-weight: 650;
+    line-height: 1.35;
+    margin: 0 0 22px;
+  }
+  .detailCard {
+    padding: 25px;
+  }
+}
+@media (max-width: 900px) {
+  .container {
+    padding: 28px 25px;
+  }
+}
+@media (max-width: 700px) {
+  .detailGrid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .productImageWrap {
+    max-width: 430px;
+    margin: auto;
+  }
+  .productInfo {
+    padding: 4px 0;
+    min-width: 0;
+  }
+  .detailTitle {
+    font-size: 30px;
+    font-weight: 650;
+    line-height: 1.35;
+    margin: 0 0 22px;
+  }
+  .inventoryItem {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .inventoryItemActions {
+    margin-left: auto;
+  }
+  .detailSkeleton {
+    grid-template-columns: 1fr;
+  }
+  .detailSkeleton > div:first-child {
+    aspect-ratio: 1.3;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 25px 18px;
+  }
+  .detailCard {
+    padding: 20px;
+  }
+  .detailImg {
+    padding: 25px;
+  }
+  .detailTitle {
+    font-size: 30px;
+    font-weight: 650;
+    line-height: 1.35;
+    margin: 0 0 22px;
+  }
+  .formCard {
+    padding: 25px;
+  }
+  .formContainer {
+    padding: 0 18px;
+  }
+  .inventoryCard {
+    padding: 20px;
+  }
+  .inventoryTitle {
+    font-size: 18px;
+  }
+  .inventoryHeader {
+    flex-wrap: wrap;
+  }
+  .detailDesc {
+    font-size: 15px;
+    color: #525252;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+}
 .title {
   font-size: 26px;
   line-height: 1.3;
@@ -421,4 +512,12 @@
 .btnSave:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
+}
+@media (max-width: 380px) {
+  .actionsBox {
+    gap: 8px;
+  }
+  .btnSave {
+    padding: 12px 14px;
+  }
 }
