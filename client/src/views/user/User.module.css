@@ -197,6 +197,48 @@
 .orderTotal {
   color: var(--ink);
 }
+@media (max-width: 900px) {
+  .container {
+    padding: 28px 25px;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 25px 18px;
+  }
+  .card {
+    padding: 23px;
+  }
+  .name,
+  .title {
+    font-size: 25px;
+  }
+  .profileHeader {
+    gap: 15px;
+  }
+  .email {
+    font-size: 12px;
+  }
+  .orderHeader {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .orderProductRow {
+    align-items: flex-start;
+  }
+  .orderItem {
+    padding: 16px;
+  }
+  .ordersTitle {
+    font-size: 18px;
+  }
+  .orderFooter {
+    flex-wrap: wrap;
+  }
+  .orderFooter .orderLink {
+    font-size: 12px;
+  }
+}
 .fieldHint {
   display: flex;
   align-items: flex-start;
@@ -317,4 +359,34 @@
 .receiptLink:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+@media (max-width: 600px) {
+  .profileHeader {
+    flex-wrap: wrap;
+  }
+  .profileTools {
+    margin-left: auto;
+  }
+  .email {
+    font-size: 14px;
+  }
+  .orderHeader {
+    padding: 16px;
+  }
+  .orderProductRow {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 12px;
+    margin: 0 16px;
+  }
+  .orderImageLink {
+    width: 48px;
+    height: 60px;
+  }
+  .orderStatus {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .orderProductInfo p {
+    font-size: 14px;
+  }
 }
