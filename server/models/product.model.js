@@ -37,4 +37,11 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
+ProductSchema.index({ created: -1, _id: -1 });
+ProductSchema.index({ shop: 1, created: -1, _id: -1 });
+ProductSchema.index({ category: 1, created: -1, _id: -1 });
+ProductSchema.index({ price: 1, _id: 1 });
+ProductSchema.index({ name: 1, _id: 1 });
+ProductSchema.index({ shop: 1, price: 1, _id: 1 });
+ProductSchema.index({ category: 1, price: 1, _id: 1 });
 export default mongoose.model('Product', ProductSchema);

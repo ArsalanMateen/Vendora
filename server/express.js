@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import compress from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
-
+import mongoose from 'mongoose';
 
 // Routes
 import userRoutes from './routes/user.routes.js';
@@ -23,7 +23,11 @@ app.use(compress());
 app.use(helmet());
 app.use(cors());
 
-
+app.get('/health', (req, res) => {
+  const connected = mongoose.connection.readyState === 1;
+  res.set('Cache-Control', 'no-store');
+  return res.status(connected ? 200 : 503).json({ status: connected ? 'ok' : 'unavailable' });
+});
 
 // Mount API routes
 app.use('/', userRoutes);

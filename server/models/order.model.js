@@ -43,6 +43,8 @@ const OrderSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.ObjectId, ref: 'User' },
 });
 
+OrderSchema.index({ user: 1, created: -1, _id: -1 });
+OrderSchema.index({ 'products.shop': 1, created: -1, _id: -1 });
 const Order = mongoose.model('Order', OrderSchema);
 
 export { Order, CartItem };

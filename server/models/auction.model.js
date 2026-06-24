@@ -43,5 +43,6 @@ const AuctionSchema = new mongoose.Schema({
   ],
 });
 
+AuctionSchema.index({ bidEnd: 1, _id: 1 });
 // Only 24 auction records currently; defer extra seller/bidder indexes until growth warrants them.
 export default mongoose.model('Auction', AuctionSchema);

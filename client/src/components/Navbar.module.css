@@ -227,6 +227,83 @@
   background: #e9e9e9;
   margin: 5px 8px;
 }
+@media (max-width: 600px) {
+  .accountMenu {
+    min-width: 205px;
+  }
+}
+@media (min-width: 1700px) {
+  .topbar {
+    padding-left: max(36px, calc((100vw - var(--sidebar-width) - 1280px) / 2));
+    padding-right: max(36px, calc((100vw - var(--sidebar-width) - 1280px) / 2));
+  }
+}
+@media (max-height: 820px) {
+  .sidebar {
+    padding-top: 23px;
+  }
+  .brandRow {
+    margin-bottom: 24px;
+  }
+  .sidebarBottom {
+    margin-top: 10px;
+  }
+  .navLabel {
+    margin-top: 17px;
+  }
+}
+@media (max-width: 1150px) {
+  .topbar {
+    padding: 0 25px;
+    gap: 18px;
+  }
+  .topActions {
+    gap: 13px;
+  }
+}
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s;
+    width: 248px;
+  }
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+  .topbar {
+    margin-left: 0;
+    height: 68px;
+  }
+  .menuButton,
+  .mobileClose {
+    display: flex;
+    border: none;
+    background: none;
+    padding: 5px;
+    color: var(--ink);
+  }
+  .mobileClose {
+    padding: 4px;
+  }
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(31, 43, 30, 0.4);
+    border: none;
+    z-index: 55;
+    backdrop-filter: blur(2px);
+  }
+}
+@media (max-width: 600px) {
+  .topbar {
+    padding: 0 18px;
+    gap: 12px;
+  }
+  .topActions {
+    gap: 11px;
+  }
+}
 
 .accountMenuHeader {
   padding: 10px 12px 12px;

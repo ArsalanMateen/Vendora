@@ -153,6 +153,43 @@
   color: var(--accent-hover);
   font-weight: 600;
 }
+@media (max-width: 1150px) {
+  .authContainer {
+    gap: 34px;
+  }
+  .title {
+    font-size: 27px;
+  }
+}
+@media (max-width: 700px) {
+  .authContainer {
+    display: block;
+    padding: 0 24px;
+    margin: 32px auto;
+    min-height: auto;
+  }
+  .authCard {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 30px 25px;
+    max-width: 420px;
+  }
+  .title {
+    font-size: 27px;
+  }
+}
+@media (max-width: 400px) {
+  .authContainer {
+    padding: 0 18px;
+  }
+  .authCard {
+    padding: 25px 21px;
+  }
+  .title {
+    font-size: 25px;
+  }
+}
 .backNavigation {
   text-align: center;
   margin-top: 26px;
